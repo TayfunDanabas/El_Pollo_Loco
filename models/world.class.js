@@ -13,6 +13,8 @@ class World {
   throwableObjects = [];
   collectedCoins = 0;
   collectedBottles = 0;
+  wasThrowKeyPressed = false;
+  lastThrow = 0;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -38,24 +40,32 @@ class World {
   run() {
     setInterval(() => {
       this.checkEnemyCollisions();
-      this.checkThrowObjects();
     }, 200);
 
     setInterval(() => {
       this.checkItemCollisions();
+      this.checkThrowObjects();
     }, 1000 / 60);
   }
 
   checkThrowObjects() {
-    if (this.keyboard.D && this.collectedBottles > 0) {
+    let timePassed = (new Date().getTime() - this.lastThrow) / 1000;
+    if (
+      this.keyboard.D &&
+      !this.wasThrowKeyPressed &&
+      this.collectedBottles > 0 &&
+      timePassed > 0.5
+    ) {
       let bottle = new ThrowableObject(
         this.character.x + 100,
         this.character.y + 100,
       );
       this.throwableObjects.push(bottle);
       this.collectedBottles--;
-      this.bottleStatusBar.setPercentage((this.collectedBottles / 6) * 100);
+      this.bottleStatusBar.setPercentage((this.collectedBottles / 5) * 100);
+      this.lastThrow = new Date().getTime();
     }
+    this.wasThrowKeyPressed = this.keyboard.D;
   }
 
   checkEnemyCollisions() {
@@ -78,15 +88,15 @@ class World {
       if (this.character.isColliding(coin)) {
         this.level.coins.splice(this.level.coins.indexOf(coin), 1);
         this.collectedCoins++;
-        this.coinStatusBar.setPercentage((this.collectedCoins / 6) * 100);
+        this.coinStatusBar.setPercentage((this.collectedCoins / 5) * 100);
       }
     });
 
     this.level.bottles.forEach((bottle) => {
-      if (this.character.isColliding(bottle)) {
+      if (this.character.isColliding(bottle) && this.collectedBottles < 5) {
         this.level.bottles.splice(this.level.bottles.indexOf(bottle), 1);
         this.collectedBottles++;
-        this.bottleStatusBar.setPercentage((this.collectedBottles / 6) * 100);
+        this.bottleStatusBar.setPercentage((this.collectedBottles / 5) * 100);
       }
     });
   }
@@ -96,6 +106,7 @@ class World {
 
     this.ctx.translate(this.camera_x, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
+    this.addObjectsToMap(this.level.clouds);
 
     this.ctx.translate(-this.camera_x, 0);
     // ---------- Space for fixed Objects ----------
@@ -108,7 +119,6 @@ class World {
     this.ctx.translate(this.camera_x, 0);
 
     this.addToMap(this.character);
-    this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);

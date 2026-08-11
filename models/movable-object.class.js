@@ -34,6 +34,11 @@ class MovableObject extends DrawableObject {
     );
   }
 
+  // character.isJumpingOn(chicken);
+  isJumpingOn(mo) {
+    return this.isColliding(mo) && this.isAboveGround() && this.speedY < 0;
+  }
+
   hit() {
     this.energy -= 5;
     if (this.energy < 0) {
@@ -69,5 +74,9 @@ class MovableObject extends DrawableObject {
 
   jump() {
     this.speedY = 30;
+  }
+
+  bounce() {
+    this.speedY = 22;
   }
 }

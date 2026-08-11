@@ -45,6 +45,8 @@ class World {
     setInterval(() => {
       this.checkItemCollisions();
       this.checkThrowObjects();
+      this.checkBottleHits();
+      this.checkStompCollisions();
     }, 1000 / 60);
   }
 
@@ -68,9 +70,52 @@ class World {
     this.wasThrowKeyPressed = this.keyboard.D;
   }
 
+  checkBottleHits() {
+    this.throwableObjects.forEach((bottle) => {
+      this.level.enemies.forEach((enemy) => {
+        if (bottle.isColliding(enemy) && !enemy.isDead()) {
+          enemy.hit();
+          this.throwableObjects.splice(
+            this.throwableObjects.indexOf(bottle),
+            1,
+          );
+          if (enemy instanceof Endboss) {
+            this.endbossStatusBar.setPercentage((enemy.energy / 25) * 100);
+          } else {
+            this.removeDeadEnemy(enemy);
+          }
+        }
+      });
+    });
+  }
+
+  checkStompCollisions() {
+    this.level.enemies.forEach((enemy) => {
+      if (
+        !(enemy instanceof Endboss) &&
+        !enemy.isDead() &&
+        this.character.isJumpingOn(enemy)
+      ) {
+        enemy.hit();
+        this.character.bounce();
+        this.removeDeadEnemy(enemy);
+      }
+    });
+  }
+
+  removeDeadEnemy(enemy) {
+    setTimeout(() => {
+      this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
+    }, 1000);
+  }
+
   checkEnemyCollisions() {
     this.level.enemies.forEach((enemy) => {
-      if (this.character.isColliding(enemy)) {
+      if (
+        this.character.isColliding(enemy) &&
+        !enemy.isDead() &&
+        !this.character.isJumpingOn(enemy)
+      ) {
         if (enemy instanceof Endboss) {
           this.character.hit();
           this.character.hit();

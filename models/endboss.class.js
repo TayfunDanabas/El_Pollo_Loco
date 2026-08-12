@@ -2,10 +2,11 @@ class Endboss extends MovableObject {
   height = 400;
   width = 250;
   y = 55;
-  speed = 2;
+  speed = 5;
   energy = 25;
   world;
   isAlerted = false;
+  deadFrame = 0;
 
   IMAGES_WALKING = [
     'img/4_enemie_boss_chicken/1_walk/G1.png',
@@ -70,7 +71,11 @@ class Endboss extends MovableObject {
 
     setInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+        // Bleibt auf dem letzten Bild stehen, statt die Animation zu wiederholen
+        if (this.deadFrame < this.IMAGES_DEAD.length - 1) {
+          this.deadFrame++;
+        }
+        this.img = this.imageCache[this.IMAGES_DEAD[this.deadFrame]];
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.world && this.world.character.isColliding(this)) {

@@ -66,6 +66,7 @@ class Character extends MovableObject {
   world;
   speed = 10;
   lastMovement = new Date().getTime();
+  deadFrame = 0;
 
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
@@ -81,6 +82,9 @@ class Character extends MovableObject {
 
   animate() {
     setInterval(() => {
+      if (gamePaused) {
+        return;
+      }
       if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
         this.moveRight();
         this.otherDirection = false;
@@ -105,7 +109,11 @@ class Character extends MovableObject {
 
     setInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+        // Bleibt auf dem letzten Bild stehen, statt die Animation zu wiederholen
+        if (this.deadFrame < this.IMAGES_DEAD.length - 1) {
+          this.deadFrame++;
+        }
+        this.img = this.imageCache[this.IMAGES_DEAD[this.deadFrame]];
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {

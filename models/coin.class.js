@@ -8,6 +8,6 @@ class Coin extends DrawableObject {
     super().loadImage(this.IMAGES[0]);
     this.loadImages(this.IMAGES);
     this.x = x + Math.random() * 100;
-    this.y = 50 + Math.random() * 300;
+    this.y = 50 + Math.random() * 150;
   }
 }

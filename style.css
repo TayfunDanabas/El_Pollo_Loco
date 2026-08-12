@@ -2,16 +2,30 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Trebuchet MS', Verdana, sans-serif;
 }
 
 body {
   min-height: 100vh;
+  /* background-image:
+    linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)),
+    url('img/desert-background.png'); */
+  background-color: rgb(39, 22, 2);
+  background-size: cover;
+  background-position: center;
 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 20px;
+}
+
+h1 {
+  color: #f7a11a;
+  font-size: 40px;
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 #a8341a;
 }
 
 canvas {
@@ -22,6 +36,9 @@ canvas {
   position: relative;
   width: 720px;
   height: 480px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
 }
 
 .start-screen {
@@ -37,35 +54,153 @@ canvas {
   align-items: flex-end;
   justify-content: center;
   gap: 20px;
+  padding-bottom: 30px;
 }
 
-.start-screen button {
-  margin-bottom: 30px;
+/* Kein display auf dem dialog setzen, sonst ist er immer sichtbar */
+dialog {
+  /* Zentriert den Dialog, wird sonst vom * { margin: 0 } geloescht */
+  margin: auto;
+  max-width: 560px;
+  padding: 28px 40px;
+  background: linear-gradient(#fff6e3, #ecd0a0);
+  border: 5px solid #a8341a;
+  border-radius: 20px;
+  text-align: center;
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.dialog-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+dialog h2 {
+  font-size: 32px;
+  color: #f7a11a;
+  letter-spacing: 1px;
+  text-shadow: 2px 2px 0 #a8341a;
+}
+
+dialog p {
+  line-height: 1.5;
+  margin-left: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #5b3a1e;
+}
+
+.dialog-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #a8341a;
+}
+
+.control-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.control-label {
+  margin-left: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #5b3a1e;
+}
+
+.control-or {
+  margin-left: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #5b3a1e;
+}
+
+/* Sieht aus wie eine echte Taste */
+.keycap {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(#ffffff, #ffe9c4);
+  border: 3px solid #a8341a;
+  border-radius: 10px;
+  color: #a8341a;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.arrow {
+  width: 24px;
+  height: 24px;
+}
+
+.end-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 720px;
+  height: 480px;
+  background-color: rgba(0, 0, 0, 0.35);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.end-screen img {
+  height: 220px;
+}
+
+.end-screen img.win-image {
+  height: 300px;
+}
+
+.end-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.start-screen button,
+dialog button,
+.end-screen button {
   padding: 12px 32px;
   font-size: 22px;
   font-weight: bold;
   color: white;
   background-color: #e2721b;
-  border: 3px solid #fc3512;
+  border: 3px solid #a8341a;
   border-radius: 12px;
   cursor: pointer;
+  outline: none;
 }
 
-.start-screen button:hover {
+.start-screen button:hover,
+dialog button:hover,
+.end-screen button:hover {
   background-color: #f59a3d;
 }
 
 .impressum {
-  padding: 8px 20px;
-  font-size: 16px;
-  color: #e2721b;
+  font-size: 24px;
   background-color: transparent;
   border: none;
+  color: #f7a11a;
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 #a8341a;
   cursor: pointer;
-}
-
-.impressum:hover {
-  text-decoration: underline;
+  outline: none;
 }
 
 /* Muss immer ganz unten stehen !!! */

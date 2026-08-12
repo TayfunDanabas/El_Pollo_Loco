@@ -8,6 +8,9 @@ class MovableObject extends DrawableObject {
 
   applyGravity() {
     setInterval(() => {
+      if (gamePaused) {
+        return;
+      }
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
@@ -64,6 +67,9 @@ class MovableObject extends DrawableObject {
   }
 
   playAnimation(images) {
+    if (gamePaused) {
+      return;
+    }
     let i = this.currentImage % images.length;
     let path = images[i];
     this.img = this.imageCache[path];
@@ -71,9 +77,15 @@ class MovableObject extends DrawableObject {
   }
 
   moveRight() {
+    if (gamePaused) {
+      return;
+    }
     this.x += this.speed;
   }
   moveLeft() {
+    if (gamePaused) {
+      return;
+    }
     this.x -= this.speed;
   }
 

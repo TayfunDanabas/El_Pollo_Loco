@@ -15,6 +15,9 @@ class World {
   collectedBottles = 0;
   wasThrowKeyPressed = false;
   lastThrow = 0;
+  isRunning = true;
+  gameEnded = false;
+  showEndBackground = false;
 
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -39,14 +42,51 @@ class World {
 
   run() {
     setInterval(() => {
+      if (gamePaused) {
+        return;
+      }
       this.checkEnemyCollisions();
     }, 200);
 
     setInterval(() => {
+      if (gamePaused) {
+        return;
+      }
       this.checkItemCollisions();
       this.checkThrowObjects();
       this.checkBottleHits();
       this.checkStompCollisions();
+      this.checkGameOver();
+    }, 1000 / 60);
+  }
+
+  checkGameOver() {
+    if (this.gameEnded) {
+      return;
+    }
+
+    if (this.character.isDead()) {
+      this.gameEnded = true;
+      // Verzoegerung, damit man die Todes-Animation vom Character noch sieht
+      this.waitThenShowEndScreen(600, false);
+    } else if (this.endboss && this.endboss.isDead()) {
+      this.gameEnded = true;
+      // Verzoegerung, damit man die Todes-Animation vom Boss noch sieht
+      this.waitThenShowEndScreen(900, true);
+    }
+  }
+
+  waitThenShowEndScreen(delay, hasWon) {
+    let timeLeft = delay;
+    let interval = setInterval(() => {
+      if (gamePaused) {
+        return;
+      }
+      timeLeft -= 1000 / 60;
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        showEndScreen(hasWon);
+      }
     }, 1000 / 60);
   }
 
@@ -104,9 +144,17 @@ class World {
   }
 
   removeDeadEnemy(enemy) {
-    setTimeout(() => {
-      this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
-    }, 1000);
+    let timeLeft = 1000;
+    let interval = setInterval(() => {
+      if (gamePaused) {
+        return;
+      }
+      timeLeft -= 1000 / 60;
+      if (timeLeft <= 0) {
+        clearInterval(interval);
+        this.level.enemies.splice(this.level.enemies.indexOf(enemy), 1);
+      }
+    }, 1000 / 60);
   }
 
   checkEnemyCollisions() {
@@ -154,22 +202,30 @@ class World {
     this.addObjectsToMap(this.level.clouds);
 
     this.ctx.translate(-this.camera_x, 0);
-    // ---------- Space for fixed Objects ----------
-    this.addToMap(this.statusBar);
-    this.addToMap(this.coinStatusBar);
-    this.addToMap(this.bottleStatusBar);
-    if (this.endboss && this.endboss.isAlerted) {
-      this.addToMap(this.endbossStatusBar);
+
+    // Am Ende des Spiels wird nur der Hintergrund gezeichnet
+    if (!this.showEndBackground) {
+      // ---------- Space for fixed Objects ----------
+      this.addToMap(this.statusBar);
+      this.addToMap(this.coinStatusBar);
+      this.addToMap(this.bottleStatusBar);
+      if (this.endboss && this.endboss.isAlerted) {
+        this.addToMap(this.endbossStatusBar);
+      }
+      this.ctx.translate(this.camera_x, 0);
+
+      this.addToMap(this.character);
+      this.addObjectsToMap(this.level.enemies);
+      this.addObjectsToMap(this.level.coins);
+      this.addObjectsToMap(this.level.bottles);
+      this.addObjectsToMap(this.throwableObjects);
+
+      this.ctx.translate(-this.camera_x, 0);
     }
-    this.ctx.translate(this.camera_x, 0);
 
-    this.addToMap(this.character);
-    this.addObjectsToMap(this.level.enemies);
-    this.addObjectsToMap(this.level.coins);
-    this.addObjectsToMap(this.level.bottles);
-    this.addObjectsToMap(this.throwableObjects);
-
-    this.ctx.translate(-this.camera_x, 0);
+    if (!this.isRunning) {
+      return;
+    }
 
     // draw() wird immer wieder aufgerufen
     let self = this;

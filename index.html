@@ -35,10 +35,67 @@
 
       <div id="startScreen" class="start-screen">
         <button onclick="startGame()">Spiel starten</button>
-        <button>Steuerung</button>
+        <button onclick="showControls()">Steuerung</button>
       </div>
+
+      <div id="endScreen" class="end-screen d-none">
+        <img id="endImage" src="img/You won, you lost/Game over A.png" alt="" />
+
+        <div class="end-buttons">
+          <button onclick="backToHome()">Home</button>
+          <button onclick="restartGame()">Nochmal spielen</button>
+        </div>
+      </div>
+
     </div>
 
-    <button class="impressum">Impressum</button>
+    <button class="impressum" onclick="showImpressum()">Impressum</button>
+
+    <dialog id="controlsDialog">
+      <div class="dialog-content">
+        <h2>Steuerung</h2>
+
+        <div class="control-row">
+          <div class="keycap">
+            <img class="arrow" src="img/arrows/arrow-left.svg" alt="Pfeil links" />
+          </div>
+          <div class="keycap">
+            <img class="arrow" src="img/arrows/arrow-right.svg" alt="Pfeil rechts" />
+          </div>
+          <span class="control-label">Bewegen</span>
+        </div>
+
+        <div class="control-row">
+          <div class="keycap">
+            <img class="arrow" src="img/arrows/arrow-up.svg" alt="Pfeil hoch" />
+          </div>
+          <span class="control-or">oder</span>
+          <div class="keycap">LEERTASTE</div>
+          <span class="control-label">Springen</span>
+        </div>
+
+        <div class="control-row">
+          <div class="keycap">D</div>
+          <span class="control-label">Flasche werfen</span>
+        </div>
+
+        <button onclick="hideControls()">Zur&uuml;ck</button>
+      </div>
+    </dialog>
+
+    <dialog id="impressumDialog" onclose="resumeGame()">
+      <div class="dialog-content">
+        <h2>Impressum</h2>
+
+        <p class="dialog-name">Tayfun Danabas</p>
+        <p>Developer Akademie</p>
+        <p>
+          Dieses Spiel ist ein privates Lernprojekt im Rahmen einer Umschulung
+          und dient nicht kommerziellen Zwecken.
+        </p>
+
+        <button onclick="hideImpressum()">Zur&uuml;ck</button>
+      </div>
+    </dialog>
   </body>
 </html>

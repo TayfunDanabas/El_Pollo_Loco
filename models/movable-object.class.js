@@ -82,6 +82,6 @@ class MovableObject extends DrawableObject {
   }
 
   bounce() {
-    this.speedY = 12;
+    this.speedY = 20;
   }
 }

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <title>El Pollo Loco</title>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
     <script src="models/character.class.js"></script>
@@ -27,9 +27,18 @@
     <script src="js/game.js"></script>
   </head>
 
-  <body onload="init()">
+  <body>
     <h1>El Pollo Loco</h1>
 
-    <canvas id="canvas" width="720" height="480"></canvas>
+    <div id="game">
+      <canvas id="canvas" width="720" height="480"></canvas>
+
+      <div id="startScreen" class="start-screen">
+        <button onclick="startGame()">Spiel starten</button>
+        <button>Steuerung</button>
+      </div>
+    </div>
+
+    <button class="impressum">Impressum</button>
   </body>
 </html>

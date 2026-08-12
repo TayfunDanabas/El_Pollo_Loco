@@ -4,9 +4,15 @@ let keyboard = new Keyboard();
 
 function init() {
   canvas = document.getElementById('canvas');
+  initLevel();
   world = new World(canvas, keyboard);
 
   console.log('My Character is', world.character);
+}
+
+function startGame() {
+  document.getElementById('startScreen').classList.add('d-none');
+  init();
 }
 
 window.addEventListener('keydown', (e) => {

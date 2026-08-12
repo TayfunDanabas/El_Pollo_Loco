@@ -4,10 +4,10 @@ class Coin extends DrawableObject {
   width = 100;
   height = 100;
 
-  constructor() {
+  constructor(x) {
     super().loadImage(this.IMAGES[0]);
     this.loadImages(this.IMAGES);
-    this.x = 200 + Math.random() * 2000;
+    this.x = x + Math.random() * 100;
     this.y = 50 + Math.random() * 300;
   }
 }

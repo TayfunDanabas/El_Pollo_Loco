@@ -8,9 +8,9 @@ class Bottle extends DrawableObject {
   height = 100;
   y = 350;
 
-  constructor() {
+  constructor(x) {
     super().loadImage(this.IMAGES[0]);
     this.loadImages(this.IMAGES);
-    this.x = 200 + Math.random() * 2000;
+    this.x = x + Math.random() * 100;
   }
 }

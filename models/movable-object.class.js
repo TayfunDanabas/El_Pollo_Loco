@@ -28,15 +28,20 @@ class MovableObject extends DrawableObject {
   isColliding(mo) {
     return (
       this.x + this.width > mo.x &&
-      this.y + this.height > mo.y &&
+      this.y + this.height > mo.y + mo.offsetY &&
       this.x < mo.x + mo.width &&
-      this.y < mo.y + mo.height
+      this.y + this.offsetY < mo.y + mo.height
     );
   }
 
   // character.isJumpingOn(chicken);
   isJumpingOn(mo) {
-    return this.isColliding(mo) && this.isAboveGround() && this.speedY < 0;
+    return (
+      this.isColliding(mo) &&
+      this.isAboveGround() &&
+      this.speedY < 0 &&
+      this.y + this.height < mo.y + mo.height
+    );
   }
 
   hit() {
@@ -77,6 +82,6 @@ class MovableObject extends DrawableObject {
   }
 
   bounce() {
-    this.speedY = 22;
+    this.speedY = 12;
   }
 }

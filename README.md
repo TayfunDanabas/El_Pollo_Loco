@@ -1,134 +1,78 @@
 # El Pollo Loco
 
-Ein 2D-Jump-and-Run im Browser. Pepe schlägt sich durch die Wüste, sammelt Salsaflaschen
-und Münzen und stellt sich am Ende einem übergroßen wütenden Huhn.
+Ein 2D Jump-and-Run für den Browser, gebaut mit JavaScript und der Canvas-API.
+Mein Projekt aus dem Modul "Jump and Run" bei der Developer Akademie.
 
-Gebaut mit reinem JavaScript und der Canvas-API — ohne Framework, ohne Build-Schritt,
-ohne Abhängigkeiten.
+![Startbildschirm](img/9_intro_outro_screens/start/startscreen_1.png)
 
-![Startbildschirm von El Pollo Loco](img/9_intro_outro_screens/start/startscreen_1.png)
+## Worum es geht
 
-## Über das Projekt
-
-Dieses Spiel ist mein Abschlussprojekt im Modul „Jump and Run" der
-[Developer Akademie](https://developerakademie.com/). Ziel war es, ein vollständiges
-Spiel objektorientiert aufzubauen: Vererbungshierarchien für alle Spielobjekte,
-eine zentrale Spielschleife über `requestAnimationFrame` und Kollisionserkennung
-ohne fremde Engine.
-
-## Live-Demo
-
-**[▶ Jetzt spielen](https://tayfundanabas.github.io/El_Pollo_Loco/)**
+Pepe läuft durch die Wüste, sammelt Salsaflaschen und Münzen und muss am Ende
+gegen ein riesiges Huhn antreten. Normale Gegner erledigt man mit einer geworfenen
+Flasche oder mit einem Sprung von oben. Der Endboss lässt sich nur mit Flaschen
+besiegen und schlägt deutlich härter zu als die anderen. Ist die Energieleiste
+leer, ist das Spiel vorbei.
 
 ## Features
 
-- **Durchgehend animierter Charakter** — Laufen, Springen, Verletzung, Idle und eine
-  Schlafanimation samt Schnarchen, wenn 15 Sekunden lang nichts passiert
-- **Drei Gegnertypen** — normale Hühner, schnellere kleine Hühner und der Endboss,
-  der erst erwacht, wenn Pepe ihm nahe kommt, und ihn danach verfolgt
-- **Zwei Angriffsarten** — Flaschen werfen oder von oben auf Gegner springen
-- **Vier Statusleisten** — Leben, Münzen, Flaschenvorrat und die Energie des Endbosses
-- **Vollständige Vertonung** — Hintergrundmusik und Soundeffekte, jederzeit stummschaltbar.
-  Der Mute-Status bleibt über den Local Storage erhalten
-- **Mobil spielbar** — Touch-Buttons erscheinen automatisch auf Smartphones und Tablets,
-  im Hochformat weist ein Hinweis auf das Querformat hin
-- **Neustart ohne Reload** — nach Sieg oder Niederlage direkt weiterspielen oder
-  zurück zum Startbildschirm
+- Charakter mit Animationen für Laufen, Springen, Verletzung, Idle und Schlafen
+- Zwei verschiedene Gegnertypen plus Endboss, der erst aufwacht, wenn man näher kommt
+- Vier Statusleisten: Leben, Münzen, Flaschenvorrat und Energie des Endbosses
+- Musik und Soundeffekte, jederzeit stummschaltbar
+- Der Mute-Status wird im Local Storage gespeichert und bleibt erhalten
+- Touch-Buttons auf Handy und Tablet
+- Neustart nach Sieg oder Niederlage, ohne die Seite neu zu laden
 
 ## Steuerung
 
-### Tastatur
-
 | Taste | Aktion |
 | --- | --- |
-| `←` `→` | Bewegen |
+| `←` `→` | Laufen |
 | `↑` oder `Leertaste` | Springen |
 | `D` | Flasche werfen |
 
-### Mobil
+Auf Touchgeräten erscheinen im Querformat automatisch Buttons für Laufen,
+Springen und Werfen. Hält man das Gerät hochkant, kommt stattdessen der Hinweis,
+dass man es drehen soll.
 
-Auf Touchgeräten im Querformat blenden sich vier Buttons ein: links und rechts zum
-Bewegen, sowie Springen und Werfen. Das Kontextmenü bei langem Drücken ist deaktiviert,
-damit es das Spiel nicht unterbricht.
+## Technik
 
-## Spielmechanik
-
-Pepe startet mit 100 Energie. Ein normales Huhn kostet 20 Energie, der Endboss 60 —
-gegen ihn sind also nur zwei Treffer verkraftbar. Nach einem Treffer ist Pepe eine
-Sekunde lang unverwundbar, solange die Verletzt-Animation läuft.
-
-| | Wert |
-| --- | --- |
-| Gegner im Level | 20 Hühner (abwechselnd groß und klein) + 1 Endboss |
-| Sammelbares | 5 Münzen, 16 Salsaflaschen |
-| Flaschen gleichzeitig tragbar | 5 |
-| Treffer bis ein Huhn stirbt | 1 (Flasche oder Sprung von oben) |
-| Treffer bis der Endboss stirbt | 5 Flaschen |
-| Wurfpause | 0,5 Sekunden |
-
-Hühner sterben nur, wenn Pepe wirklich **von oben** auf sie fällt — seitliches
-Berühren kostet Energie. Der Endboss lässt sich nicht zertreten, gegen ihn helfen
-ausschließlich Flaschen.
-
-## Technologie
-
-- **JavaScript (ES6+)** — Klassen, Vererbung, keine Frameworks
-- **HTML5 Canvas** — die komplette Spielwelt wird pro Frame neu gezeichnet
-- **CSS3** — Layout, Dialoge über das native `<dialog>`-Element, Media Queries für Mobilgeräte
-- **Web Audio** über `HTMLAudioElement`, Persistenz über **Local Storage**
-
-Der gesamte Code ist nach dem JSDoc-Standard dokumentiert.
+- JavaScript mit Klassen und Vererbung, ohne Framework
+- HTML5 Canvas, die Spielwelt wird pro Frame neu gezeichnet
+- CSS mit Media Queries für die mobile Ansicht
+- Dialoge über das `<dialog>`-Element
+- Local Storage für den Ton
+- Der Code ist durchgehend mit JSDoc kommentiert
 
 ## Projektstruktur
 
 ```
-El Pollo Loco/
-├── index.html              Einstiegspunkt, bindet alle Skripte ein
-├── models/                 Alle Spielklassen
-│   ├── drawable-object.class.js    Basis: zeichnen und Bilder laden
-│   ├── movable-object.class.js     Bewegung, Schwerkraft, Kollision, Schaden
-│   ├── character.class.js          Spielfigur Pepe
-│   ├── chicken.class.js            Normales Huhn
-│   ├── chicken-small.class.js      Kleines, schnelleres Huhn
-│   ├── endboss.class.js            Endboss mit Alarm- und Verfolgungslogik
-│   ├── throwable-object.class.js   Geworfene Flasche samt Zerplatzen
-│   ├── world.class.js              Spielschleife, Kollisionen, Zeichenreihenfolge
-│   └── ...                         Münzen, Flaschen, Wolken, Statusleisten
-├── levels/
-│   └── level1.js           Aufbau des Levels
-├── js/
-│   ├── game.js             Spielsteuerung, Ein- und Ausgabe, Dialoge
-│   └── audio.js            Soundverwaltung und Mute-Logik
-├── styles/
-│   ├── style.css           Grundlayout und Design
-│   └── mobile.css          Touch-Steuerung und mobile Anpassungen
-├── fonts/                  Lokal eingebundene Schriftart
-├── img/                    Grafiken und Sprites
-└── audio/                  Musik und Soundeffekte
+index.html
+models/      alle Klassen (Charakter, Gegner, Flaschen, World, Statusleisten)
+levels/      Aufbau von Level 1
+js/          game.js für die Spielsteuerung, audio.js für den Ton
+styles/      style.css und mobile.css
+img/         Grafiken
+audio/       Musik und Soundeffekte
+fonts/       Schriftart
 ```
 
-## Lokal starten
+Die Klassen bauen aufeinander auf: `DrawableObject` kümmert sich ums Zeichnen,
+`MovableObject` erbt davon und ergänzt Bewegung, Schwerkraft und Kollision.
+Alles andere erbt wiederum von `MovableObject`.
 
-Das Projekt braucht keinen Build-Schritt.
+## Starten
 
-```bash
+```
 git clone https://github.com/TayfunDanabas/El_Pollo_Loco.git
-cd El_Pollo_Loco
 ```
 
-Danach `index.html` im Browser öffnen. Empfohlen wird ein lokaler Server —
-in VS Code zum Beispiel über die Erweiterung **Live Server**, oder direkt:
-
-```bash
-npx serve .
-```
-
-## Credits
-
-Grafiken und Sounds stammen aus dem Asset-Paket der Developer Akademie.
-Die Spiellogik, das Layout und der gesamte Code sind von mir.
+Danach einfach die `index.html` im Browser öffnen. Am besten über einen lokalen
+Server, in VS Code zum Beispiel mit der Erweiterung Live Server.
 
 ## Autor
 
-**Tayfun Danabas**
-[GitHub](https://github.com/TayfunDanabas)
+Tayfun Danabas
+
+Die Grafiken und der Großteil der Sounds stammen aus dem Asset-Paket der
+Developer Akademie.

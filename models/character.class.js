@@ -90,13 +90,18 @@ class Character extends MovableObject {
     setInterval(() => this.updateAnimation(), 50);
   }
 
-  /** Wertet die Tasten aus und richtet die Kamera am Charakter aus. */
+  /**
+   * Wertet die Tasten aus und richtet die Kamera am Charakter aus.
+   * Ist der Charakter tot, reagiert er auf keine Taste mehr.
+   */
   updateMovement() {
     if (gamePaused) {
       return;
     }
-    this.moveByKeyboard();
-    this.checkJump();
+    if (!this.isDead()) {
+      this.moveByKeyboard();
+      this.checkJump();
+    }
     this.world.camera_x = -this.x + 100;
   }
 

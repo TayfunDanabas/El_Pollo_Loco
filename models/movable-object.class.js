@@ -22,11 +22,15 @@ class MovableObject extends DrawableObject {
 
   /**
    * Prueft, ob sich das Objekt in der Luft befindet.
-   * Klassen mit eigenem Bodenverhalten ueberschreiben diese Methode.
+   * Geworfene Flaschen fallen so lange, bis sie zerplatzt sind.
    * @returns {boolean} true, wenn das Objekt nicht auf dem Boden steht.
    */
   isAboveGround() {
-    return this.y < 180;
+    if (this instanceof ThrowableObject) {
+      return !this.isBroken;
+    } else {
+      return this.y < 180;
+    }
   }
 
   /**

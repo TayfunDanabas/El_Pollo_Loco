@@ -62,15 +62,6 @@ class ThrowableObject extends MovableObject {
     }
   }
 
-  /**
-   * Eine fliegende Flasche faellt immer. Erst wenn sie zerplatzt ist, bleibt
-   * sie liegen und die Schwerkraft laesst sie in Ruhe.
-   * @returns {boolean} true, solange die Flasche noch fliegt.
-   */
-  isAboveGround() {
-    return !this.isBroken;
-  }
-
   /** Laesst die Flasche zerplatzen und spielt den Bruchsound. */
   breakBottle() {
     if (this.isBroken) {

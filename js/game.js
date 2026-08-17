@@ -101,16 +101,19 @@ function showEndScreen(hasWon) {
 }
 
 /**
- * Waehlt die Grafik des Endbildschirms aus.
+ * Waehlt die Grafik des Endbildschirms aus. Der Alt-Text wandert mit, weil das
+ * Bild die einzige Stelle ist, an der Sieg oder Niederlage steht.
  * @param {boolean} hasWon - true, wenn der Endboss besiegt wurde.
  */
 function setEndImage(hasWon) {
   let endImage = document.getElementById('endImage');
   if (hasWon) {
     endImage.src = 'img/You won, you lost/You Win A.png';
+    endImage.alt = 'Gewonnen';
     endImage.classList.add('win-image');
   } else {
     endImage.src = 'img/You won, you lost/Game Over.png';
+    endImage.alt = 'Game Over';
     endImage.classList.remove('win-image');
   }
 }

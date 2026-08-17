@@ -6,6 +6,15 @@
   font-display: swap;
 }
 
+/*
+  Breite des Spielfelds. Titel und Canvas rechnen mit demselben Wert, damit
+  beide gleich mitwachsen. Begrenzt wird sie von der Fensterbreite, von der
+  maximalen Seitenbreite und von der Fensterhoehe.
+*/
+:root {
+  --game-width: min(100vw - 32px, 1408px, (100dvh - 190px) * 1.5);
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -38,14 +47,14 @@ body {
 
 h1 {
   color: #f7a11a;
-  font-size: 40px;
-  letter-spacing: 2px;
-  text-shadow: 3px 3px 0 #a8341a;
+  font-size: max(26px, calc(var(--game-width) * 0.048));
+  letter-spacing: 0.05em;
+  text-shadow: 0.075em 0.075em 0 #a8341a;
 }
 
 #game {
   position: relative;
-  width: min(100%, (100dvh - 150px) * 1.5);
+  width: var(--game-width);
   aspect-ratio: 3 / 2;
   border-radius: 16px;
   overflow: hidden;

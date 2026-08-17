@@ -110,8 +110,8 @@
     font-size: 24px;
   }
 
-  #game {
-    width: min(100%, (100dvh - 88px) * 1.5);
+  :root {
+    --game-width: min(100vw - 16px, 1424px, (100dvh - 88px) * 1.5);
   }
 
   .start-screen {
@@ -202,8 +202,8 @@
 
 @media (hover: none) and (orientation: landscape) and (min-height: 768px),
   (any-pointer: coarse) and (orientation: landscape) and (min-height: 768px) {
-  #game {
-    width: min(100%, (100dvh - 250px) * 1.5);
+  :root {
+    --game-width: min(100vw - 16px, 1424px, (100dvh - 250px) * 1.5);
   }
 
   .touch-group {

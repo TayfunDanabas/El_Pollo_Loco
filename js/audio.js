@@ -12,7 +12,7 @@ let sounds = {
   coin: new Audio('audio/coin.wav'),
   bottleCollect: new Audio('audio/bottle_collect.wav'),
   throwBottle: new Audio('audio/throw.wav'),
-  splash: new Audio('audio/splash.wav'),
+  bottleBreak: new Audio('audio/bottle_break.wav'),
   chickenDead: new Audio('audio/chicken_dead.wav'),
   bossHurt: new Audio('audio/boss_hurt.wav'),
   win: new Audio('audio/win.wav'),
@@ -28,6 +28,8 @@ const SOUND_VOLUMES = {
   walk: 0.25,
   snore: 0.35,
   coin: 0.4,
+  throwBottle: 0.55,
+  bottleBreak: 0.6,
 };
 
 /** Lautstaerke fuer alle Sounds ohne eigenen Eintrag in SOUND_VOLUMES. */

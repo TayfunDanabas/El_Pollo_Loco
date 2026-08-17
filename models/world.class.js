@@ -68,6 +68,7 @@ class World {
     this.checkThrowObjects();
     this.checkBottleHits();
     this.checkStompCollisions();
+    this.removeFinishedBottles();
     this.checkGameOver();
   }
 
@@ -233,9 +234,12 @@ class World {
     playSound('throwBottle');
   }
 
-  /** Prueft, ob eine geworfene Flasche einen Gegner trifft. */
+  /** Prueft, ob eine noch fliegende Flasche einen Gegner trifft. */
   checkBottleHits() {
     this.throwableObjects.forEach((bottle) => {
+      if (bottle.isBroken) {
+        return;
+      }
       this.level.enemies.forEach((enemy) => {
         if (bottle.isColliding(enemy) && !enemy.isDead()) {
           this.applyBottleHit(bottle, enemy);
@@ -245,20 +249,32 @@ class World {
   }
 
   /**
-   * Verletzt den getroffenen Gegner und entfernt die zerplatzte Flasche.
+   * Verletzt den getroffenen Gegner und laesst die Flasche zerplatzen.
+   * Entfernt wird sie erst, wenn ihre Zerplatz-Animation durchgelaufen ist.
    * @param {ThrowableObject} bottle - Die geworfene Flasche.
    * @param {MovableObject} enemy - Der getroffene Gegner.
    */
   applyBottleHit(bottle, enemy) {
+    bottle.breakBottle();
     enemy.hit();
-    this.throwableObjects.splice(this.throwableObjects.indexOf(bottle), 1);
-    playSound('splash');
     if (enemy instanceof Endboss) {
       this.endbossStatusBar.setPercentage((enemy.energy / 25) * 100);
       playSound('bossHurt');
     } else {
       this.removeDeadEnemy(enemy);
     }
+  }
+
+  /** Entfernt zerplatzte Flaschen, sobald ihre Animation zu Ende ist. */
+  removeFinishedBottles() {
+    this.throwableObjects.forEach((bottle) => {
+      if (bottle.isSplashFinished()) {
+        bottle.stopIntervals();
+      }
+    });
+    this.throwableObjects = this.throwableObjects.filter(
+      (bottle) => !bottle.isSplashFinished(),
+    );
   }
 
   /**

@@ -9,7 +9,7 @@ class MovableObject extends DrawableObject {
 
   /** Laesst das Objekt fallen, solange es sich ueber dem Boden befindet. */
   applyGravity() {
-    setInterval(() => {
+    this.gravityInterval = setInterval(() => {
       if (gamePaused) {
         return;
       }
@@ -22,15 +22,11 @@ class MovableObject extends DrawableObject {
 
   /**
    * Prueft, ob sich das Objekt in der Luft befindet.
-   * Geworfene Flaschen fallen immer und gelten daher immer als in der Luft.
+   * Klassen mit eigenem Bodenverhalten ueberschreiben diese Methode.
    * @returns {boolean} true, wenn das Objekt nicht auf dem Boden steht.
    */
   isAboveGround() {
-    if (this instanceof ThrowableObject) {
-      return true;
-    } else {
-      return this.y < 180;
-    }
+    return this.y < 180;
   }
 
   /**

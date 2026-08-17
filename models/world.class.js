@@ -270,11 +270,9 @@ class World {
     this.throwableObjects.forEach((bottle) => {
       if (bottle.isSplashFinished()) {
         bottle.stopIntervals();
+        this.throwableObjects.splice(this.throwableObjects.indexOf(bottle), 1);
       }
     });
-    this.throwableObjects = this.throwableObjects.filter(
-      (bottle) => !bottle.isSplashFinished(),
-    );
   }
 
   /**

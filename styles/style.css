@@ -9,7 +9,7 @@ html {
   min-height: 100dvh;
   background-image:
     linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
-    url('img/desert-background.png');
+    url('../img/desert-background.png');
   background-size: cover;
   background-position: center;
 }
@@ -57,7 +57,7 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('img/9_intro_outro_screens/start/startscreen_1.png');
+  background-image: url('../img/9_intro_outro_screens/start/startscreen_1.png');
   background-size: 100% 100%;
 
   display: flex;

@@ -1,8 +1,16 @@
+@font-face {
+  font-family: 'Boogaloo';
+  src: url('../fonts/boogaloo-regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Trebuchet MS', Verdana, sans-serif;
+  font-family: 'Boogaloo', 'Trebuchet MS', Verdana, sans-serif;
 }
 
 html {

@@ -3,10 +3,9 @@
 Thumbs.db
 desktop.ini
 
-# Editor und Tools
+# Editor
 .vscode/
 .idea/
-.claude/
 *.swp
 
 # Abhaengigkeiten und Build

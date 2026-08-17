@@ -11,7 +11,7 @@ class World {
   canvas;
   ctx;
   keyboard;
-  camera_x = 0;
+  cameraX = 0;
   statusBar = new StatusBar();
   coinStatusBar = new CoinStatusBar();
   bottleStatusBar = new BottleStatusBar();
@@ -313,10 +313,10 @@ class World {
 
   /** Zeichnet Himmel, Landschaft und Wolken mit Kameraversatz. */
   drawBackground() {
-    this.ctx.translate(this.camera_x, 0);
+    this.ctx.translate(this.cameraX, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
     this.addObjectsToMap(this.level.clouds);
-    this.ctx.translate(-this.camera_x, 0);
+    this.ctx.translate(-this.cameraX, 0);
   }
 
   /** Zeichnet die Statusleisten fest am oberen Bildrand. */
@@ -331,13 +331,13 @@ class World {
 
   /** Zeichnet Charakter, Gegner und Gegenstaende mit Kameraversatz. */
   drawGameObjects() {
-    this.ctx.translate(this.camera_x, 0);
+    this.ctx.translate(this.cameraX, 0);
     this.addToMap(this.character);
     this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.bottles);
     this.addObjectsToMap(this.throwableObjects);
-    this.ctx.translate(-this.camera_x, 0);
+    this.ctx.translate(-this.cameraX, 0);
   }
 
   /**

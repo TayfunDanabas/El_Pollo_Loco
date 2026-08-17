@@ -5,7 +5,7 @@ class Level {
   backgroundObjects;
   coins;
   bottles;
-  level_end_x = 4400;
+  levelEndX = 4400;
 
   /**
    * Legt den Inhalt des Levels fest.

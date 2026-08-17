@@ -102,12 +102,12 @@ class Character extends MovableObject {
       this.moveByKeyboard();
       this.checkJump();
     }
-    this.world.camera_x = -this.x + 100;
+    this.world.cameraX = -this.x + 100;
   }
 
   /** Bewegt den Charakter, solange eine Richtungstaste gedrueckt ist. */
   moveByKeyboard() {
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.levelEndX) {
       this.moveRight();
       this.otherDirection = false;
       this.lastMovement = new Date().getTime();

@@ -108,11 +108,11 @@ function showEndScreen(hasWon) {
 function setEndImage(hasWon) {
   let endImage = document.getElementById('endImage');
   if (hasWon) {
-    endImage.src = 'img/You won, you lost/You Win A.png';
+    endImage.src = 'img/9_intro_outro_screens/end/you_win.png';
     endImage.alt = 'Gewonnen';
     endImage.classList.add('win-image');
   } else {
-    endImage.src = 'img/You won, you lost/Game Over.png';
+    endImage.src = 'img/9_intro_outro_screens/end/game_over.png';
     endImage.alt = 'Game Over';
     endImage.classList.remove('win-image');
   }

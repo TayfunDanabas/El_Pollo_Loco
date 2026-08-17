@@ -25,11 +25,11 @@ leer, ist das Spiel vorbei.
 
 ## Steuerung
 
-| Taste | Aktion |
-| --- | --- |
-| `←` `→` | Laufen |
-| `↑` oder `Leertaste` | Springen |
-| `D` | Flasche werfen |
+| Taste                | Aktion         |
+| -------------------- | -------------- |
+| `←` `→`              | Laufen         |
+| `↑` oder `Leertaste` | Springen       |
+| `D`                  | Flasche werfen |
 
 Auf Touchgeräten erscheinen im Querformat automatisch Buttons für Laufen,
 Springen und Werfen. Hält man das Gerät hochkant, kommt stattdessen der Hinweis,
@@ -74,5 +74,4 @@ Server, in VS Code zum Beispiel mit der Erweiterung Live Server.
 
 Tayfun Danabas
 
-Die Grafiken und der Großteil der Sounds stammen aus dem Asset-Paket der
-Developer Akademie.
+Die Grafiken stammen aus dem Asset-Paket der Developer Akademie.

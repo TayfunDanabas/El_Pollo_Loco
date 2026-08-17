@@ -18,17 +18,13 @@ let gamePaused = false;
 
 /**
  * Ordnet Tastencodes den Feldern des Keyboard-Objekts zu.
+ * Belegt sind genau die Tasten, die auch im Steuerungs-Dialog stehen.
  * @type {Object<number, string>}
  */
 const KEY_CODES = {
   37: 'LEFT',
-  74: 'LEFT',
   39: 'RIGHT',
-  76: 'RIGHT',
   38: 'UP',
-  73: 'UP',
-  40: 'DOWN',
-  75: 'DOWN',
   32: 'SPACE',
   68: 'D',
 };

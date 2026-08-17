@@ -45,8 +45,6 @@ ohne fremde Engine.
 | `↑` oder `Leertaste` | Springen |
 | `D` | Flasche werfen |
 
-Alternativ funktionieren auch `J` `L` `I` `K` als Richtungstasten.
-
 ### Mobil
 
 Auf Touchgeräten im Querformat blenden sich vier Buttons ein: links und rechts zum

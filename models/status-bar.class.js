@@ -1,32 +1,50 @@
+/** Bilder der Lebensleiste von 0% bis 100%. */
+const HEALTH_BAR_IMAGES = [
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
+  'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png',
+];
+
+/**
+ * Statusleiste am oberen Bildrand. Zeigt einen Fuellstand ueber sechs Bilder an.
+ * Ohne Angabe zeigt sie die Lebensenergie des Charakters.
+ */
 class StatusBar extends DrawableObject {
-  IMAGES = [
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/40.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/60.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/80.png',
-    'img/7_statusbars/1_statusbar/2_statusbar_health/green/100.png', // 5
-  ];
-
+  IMAGES = HEALTH_BAR_IMAGES;
   percentage = 100;
+  x = 30;
+  y = 0;
+  width = 200;
+  height = 60;
 
-  constructor() {
+  /**
+   * Laedt die Bilder der Leiste und setzt den Startfuellstand.
+   * @param {string[]} [images] - Die sechs Bilder von 0% bis 100%.
+   * @param {number} [percentage] - Startfuellstand von 0 bis 100.
+   */
+  constructor(images = HEALTH_BAR_IMAGES, percentage = 100) {
     super();
-    this.loadImages(this.IMAGES);
-    this.x = 30;
-    this.y = 0;
-    this.width = 200;
-    this.height = 60;
-    this.setPercentage(100);
+    this.IMAGES = images;
+    this.loadImages(images);
+    this.setPercentage(percentage);
   }
 
-  // setPercentage (50);
+  /**
+   * Setzt den Fuellstand und waehlt das passende Bild dazu aus.
+   * @param {number} percentage - Fuellstand von 0 bis 100.
+   */
   setPercentage(percentage) {
-    this.percentage = percentage; // => 0 ... 5
-    let path = this.IMAGES[this.resolveImageIndex()];
-    this.img = this.imageCache[path];
+    this.percentage = percentage;
+    this.img = this.imageCache[this.IMAGES[this.resolveImageIndex()]];
   }
 
+  /**
+   * Ermittelt, welches der sechs Bilder zum aktuellen Fuellstand passt.
+   * @returns {number} Index im IMAGES-Array.
+   */
   resolveImageIndex() {
     if (this.percentage == 100) {
       return 5;

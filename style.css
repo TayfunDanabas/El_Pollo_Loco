@@ -5,14 +5,21 @@
   font-family: 'Trebuchet MS', Verdana, sans-serif;
 }
 
-body {
-  min-height: 100vh;
-  /* background-image:
-    linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)),
-    url('img/desert-background.png'); */
-  background-color: rgb(39, 22, 2);
+html {
+  min-height: 100dvh;
+  background-image:
+    linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+    url('img/desert-background.png');
   background-size: cover;
   background-position: center;
+}
+
+body {
+  max-width: 1440px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  padding: 16px;
+  overflow: hidden;
 
   display: flex;
   flex-direction: column;
@@ -28,25 +35,28 @@ h1 {
   text-shadow: 3px 3px 0 #a8341a;
 }
 
-canvas {
-  background-color: black;
-}
-
 #game {
   position: relative;
-  width: 720px;
-  height: 480px;
+  width: min(100%, (100dvh - 150px) * 1.5);
+  aspect-ratio: 3 / 2;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: black;
 }
 
 .start-screen {
   position: absolute;
   top: 0;
   left: 0;
-  width: 720px;
-  height: 480px;
+  width: 100%;
+  height: 100%;
   background-image: url('img/9_intro_outro_screens/start/startscreen_1.png');
   background-size: 100% 100%;
 
@@ -57,12 +67,71 @@ canvas {
   padding-bottom: 30px;
 }
 
-/* Kein display auf dem dialog setzen, sonst ist er immer sichtbar */
+.end-screen {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.35);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+}
+
+.end-screen img {
+  height: 46%;
+}
+
+.end-screen img.win-image {
+  height: 62%;
+}
+
+.end-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.start-screen button,
+dialog button,
+.end-screen button {
+  padding: 12px 32px;
+  font-size: 25px;
+  font-weight: bold;
+  color: white;
+  background-color: #e2721b;
+  border: 3px solid #a8341a;
+  border-radius: 8px;
+  cursor: pointer;
+  outline: none;
+}
+
+.start-screen button:hover,
+dialog button:hover,
+.end-screen button:hover {
+  background-color: #f59a3d;
+}
+
+.impressum {
+  font-size: 24px;
+  background-color: transparent;
+  border: none;
+  color: #f7a11a;
+  letter-spacing: 2px;
+  text-shadow: 3px 3px 0 #a8341a;
+  cursor: pointer;
+  outline: none;
+}
+
 dialog {
-  /* Zentriert den Dialog, wird sonst vom * { margin: 0 } geloescht */
   margin: auto;
   max-width: 560px;
-  padding: 28px 40px;
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+  padding: 0;
   background: linear-gradient(#fff6e3, #ecd0a0);
   border: 5px solid #a8341a;
   border-radius: 20px;
@@ -74,10 +143,35 @@ dialog::backdrop {
 }
 
 .dialog-content {
+  position: relative;
+  padding: 28px 40px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 16px;
+}
+
+.dialog-close {
+  position: absolute;
+  top: 4px;
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  font-size: 28px;
+  line-height: 1;
+  color: #a8341a;
+  background: none;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
+}
+
+.dialog-close:hover {
+  color: #e2721b;
+  background: none;
 }
 
 dialog h2 {
@@ -107,13 +201,7 @@ dialog p {
   gap: 10px;
 }
 
-.control-label {
-  margin-left: 6px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #5b3a1e;
-}
-
+.control-label,
 .control-or {
   margin-left: 6px;
   font-size: 18px;
@@ -121,7 +209,6 @@ dialog p {
   color: #5b3a1e;
 }
 
-/* Sieht aus wie eine echte Taste */
 .keycap {
   min-width: 44px;
   height: 44px;
@@ -133,7 +220,7 @@ dialog p {
 
   background: linear-gradient(#ffffff, #ffe9c4);
   border: 3px solid #a8341a;
-  border-radius: 10px;
+  border-radius: 8px;
   color: #a8341a;
   font-size: 24px;
   font-weight: bold;
@@ -144,66 +231,44 @@ dialog p {
   height: 24px;
 }
 
-.end-screen {
-  position: absolute;
+.top-controls {
+  position: fixed;
   top: 0;
-  left: 0;
-  width: 720px;
-  height: 480px;
-  background-color: rgba(0, 0, 0, 0.35);
+  right: 0;
+  z-index: 10;
+  padding: 12px 16px;
 
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 30px;
+  gap: 12px;
+  pointer-events: none;
 }
 
-.end-screen img {
-  height: 220px;
-}
-
-.end-screen img.win-image {
-  height: 300px;
-}
-
-.end-buttons {
-  display: flex;
-  gap: 20px;
-}
-
-.start-screen button,
-dialog button,
-.end-screen button {
-  padding: 12px 32px;
-  font-size: 22px;
-  font-weight: bold;
-  color: white;
-  background-color: #e2721b;
-  border: 3px solid #a8341a;
-  border-radius: 12px;
+.top-btn {
+  width: 44px;
+  padding: 0;
+  opacity: 0.9;
   cursor: pointer;
   outline: none;
+  pointer-events: auto;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.start-screen button:hover,
-dialog button:hover,
-.end-screen button:hover {
-  background-color: #f59a3d;
+.top-btn:hover {
+  opacity: 1;
 }
 
-.impressum {
-  font-size: 24px;
-  background-color: transparent;
-  border: none;
-  color: #f7a11a;
-  letter-spacing: 2px;
-  text-shadow: 3px 3px 0 #a8341a;
-  cursor: pointer;
-  outline: none;
+.top-btn:active {
+  background: linear-gradient(#ffe9c4, #f7a11a);
 }
 
-/* Muss immer ganz unten stehen !!! */
+.top-btn img {
+  width: 26px;
+  height: 26px;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
+
 .d-none {
-  display: none;
+  display: none !important;
 }

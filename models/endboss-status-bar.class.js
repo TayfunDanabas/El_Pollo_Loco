@@ -1,44 +1,19 @@
-class EndbossStatusBar extends DrawableObject {
-  IMAGES = [
-    'img/7_statusbars/2_statusbar_endboss/green/green0.png',
-    'img/7_statusbars/2_statusbar_endboss/green/green20.png',
-    'img/7_statusbars/2_statusbar_endboss/green/green40.png',
-    'img/7_statusbars/2_statusbar_endboss/green/green60.png',
-    'img/7_statusbars/2_statusbar_endboss/green/green80.png',
-    'img/7_statusbars/2_statusbar_endboss/green/green100.png',
-  ];
+/** Bilder der Endboss-Leiste von 0% bis 100%. */
+const ENDBOSS_BAR_IMAGES = [
+  'img/7_statusbars/2_statusbar_endboss/green/green0.png',
+  'img/7_statusbars/2_statusbar_endboss/green/green20.png',
+  'img/7_statusbars/2_statusbar_endboss/green/green40.png',
+  'img/7_statusbars/2_statusbar_endboss/green/green60.png',
+  'img/7_statusbars/2_statusbar_endboss/green/green80.png',
+  'img/7_statusbars/2_statusbar_endboss/green/green100.png',
+];
 
-  percentage = 100;
+/** Statusleiste fuer die Energie des Endbosses, rechts oben im Bild. */
+class EndbossStatusBar extends StatusBar {
+  x = 500;
 
+  /** Legt die Endboss-Leiste an, die voll startet. */
   constructor() {
-    super();
-    this.loadImages(this.IMAGES);
-    this.x = 500;
-    this.y = 0;
-    this.width = 200;
-    this.height = 60;
-    this.setPercentage(100);
-  }
-
-  setPercentage(percentage) {
-    this.percentage = percentage;
-    let path = this.IMAGES[this.resolveImageIndex()];
-    this.img = this.imageCache[path];
-  }
-
-  resolveImageIndex() {
-    if (this.percentage == 100) {
-      return 5;
-    } else if (this.percentage >= 80) {
-      return 4;
-    } else if (this.percentage >= 60) {
-      return 3;
-    } else if (this.percentage >= 40) {
-      return 2;
-    } else if (this.percentage >= 20) {
-      return 1;
-    } else {
-      return 0;
-    }
+    super(ENDBOSS_BAR_IMAGES, 100);
   }
 }

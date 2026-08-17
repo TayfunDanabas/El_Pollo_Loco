@@ -1,3 +1,4 @@
+/** Das grosse Huhn am Ende des Levels, das mehr Treffer aushaelt als die Gegner. */
 class Endboss extends MovableObject {
   height = 400;
   width = 250;
@@ -38,6 +39,7 @@ class Endboss extends MovableObject {
     'img/4_enemie_boss_chicken/5_dead/G26.png',
   ];
 
+  /** Laedt alle Bilder des Endbosses und stellt ihn ans Ende des Levels. */
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -48,41 +50,59 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
+  /** Startet die Schleifen fuer Bewegung und Animation. */
   animate() {
-    setInterval(() => {
-      if (
-        !this.isAlerted &&
-        this.world &&
-        this.world.character.x > this.x - 600
-      ) {
-        this.isAlerted = true;
-      }
+    setInterval(() => this.updateMovement(), 1000 / 60);
+    setInterval(() => this.updateAnimation(), 200);
+  }
 
-      if (this.isAlerted && !this.isDead()) {
-        if (this.world.character.x < this.x) {
-          this.moveLeft();
-          this.otherDirection = false;
-        } else {
-          this.moveRight();
-          this.otherDirection = true;
-        }
-      }
-    }, 1000 / 60);
+  /** Weckt den Endboss und laesst ihn dem Charakter folgen. */
+  updateMovement() {
+    this.checkAlert();
+    if (this.isAlerted && !this.isDead()) {
+      this.followCharacter();
+    }
+  }
 
-    setInterval(() => {
-      if (this.isDead()) {
-        // Bleibt auf dem letzten Bild stehen, statt die Animation zu wiederholen
-        if (this.deadFrame < this.IMAGES_DEAD.length - 1) {
-          this.deadFrame++;
-        }
-        this.img = this.imageCache[this.IMAGES_DEAD[this.deadFrame]];
-      } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      } else if (this.world && this.world.character.isColliding(this)) {
-        this.playAnimation(this.IMAGES_ATTACK);
-      } else if (this.isAlerted) {
-        this.playAnimation(this.IMAGES_WALKING);
-      }
-    }, 200);
+  /** Weckt den Endboss, sobald der Charakter nah genug herankommt. */
+  checkAlert() {
+    if (this.isAlerted || !this.world) {
+      return;
+    }
+    if (this.world.character.x > this.x - 600) {
+      this.isAlerted = true;
+    }
+  }
+
+  /** Laeuft in die Richtung, in der sich der Charakter befindet. */
+  followCharacter() {
+    if (this.world.character.x < this.x) {
+      this.moveLeft();
+      this.otherDirection = false;
+    } else {
+      this.moveRight();
+      this.otherDirection = true;
+    }
+  }
+
+  /** Spielt die Animation, die zum aktuellen Zustand passt. */
+  updateAnimation() {
+    if (this.isDead()) {
+      this.playDeadAnimation();
+    } else if (this.isHurt()) {
+      this.playAnimation(this.IMAGES_HURT);
+    } else if (this.world && this.world.character.isColliding(this)) {
+      this.playAnimation(this.IMAGES_ATTACK);
+    } else if (this.isAlerted) {
+      this.playAnimation(this.IMAGES_WALKING);
+    }
+  }
+
+  /** Spielt die Sterbeanimation einmalig bis zum letzten Bild ab. */
+  playDeadAnimation() {
+    if (this.deadFrame < this.IMAGES_DEAD.length - 1) {
+      this.deadFrame++;
+    }
+    this.img = this.imageCache[this.IMAGES_DEAD[this.deadFrame]];
   }
 }

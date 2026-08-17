@@ -1,156 +1,110 @@
+/**
+ * Das Level, das initLevel() zusammenbaut und das die Welt danach nutzt.
+ * @type {Level}
+ */
 let level1;
 
+/** Baut das Level aus Gegnern, Wolken, Hintergrund, Muenzen und Flaschen auf. */
 function initLevel() {
   level1 = new Level(
-    [
-      new Chicken(800),
-      new ChickenSmall(1000),
-      new Chicken(1200),
-      new ChickenSmall(1400),
-      new Chicken(1600),
-      new ChickenSmall(1800),
-      new Chicken(2000),
-      new ChickenSmall(2200),
-      new Chicken(2400),
-      new ChickenSmall(2600),
-      new Chicken(2800),
-      new ChickenSmall(3000),
-      new Chicken(3200),
-      new ChickenSmall(3400),
-      new Chicken(3600),
-      new ChickenSmall(3800),
-      new Chicken(4000),
-      new ChickenSmall(4200),
-      new Chicken(4400),
-      new ChickenSmall(4600),
-      new Endboss(),
-    ],
-    [
-      new Cloud(),
-      new Cloud(),
-      new Cloud(),
-      new Cloud(),
-      new Cloud(),
-      new Cloud(),
-      new Cloud(),
-      new Cloud(),
-    ],
-    [
-      new BackgroundObject('img/5_background/layers/air.png', -719),
-      new BackgroundObject('img/5_background/layers/3_third_layer/2.png', -719),
-      new BackgroundObject('img/5_background/layers/2_second_layer/2.png', -719),
-      new BackgroundObject('img/5_background/layers/1_first_layer/2.png', -719),
-      new BackgroundObject('img/5_background/layers/air.png', 0),
-      new BackgroundObject('img/5_background/layers/3_third_layer/1.png', 0),
-      new BackgroundObject('img/5_background/layers/2_second_layer/1.png', 0),
-      new BackgroundObject('img/5_background/layers/1_first_layer/1.png', 0),
-      new BackgroundObject('img/5_background/layers/air.png', 719),
-      new BackgroundObject('img/5_background/layers/3_third_layer/2.png', 719),
-      new BackgroundObject('img/5_background/layers/2_second_layer/2.png', 719),
-      new BackgroundObject('img/5_background/layers/1_first_layer/2.png', 719),
-      new BackgroundObject('img/5_background/layers/air.png', 719 * 2),
-      new BackgroundObject(
-        'img/5_background/layers/3_third_layer/1.png',
-        719 * 2,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/2_second_layer/1.png',
-        719 * 2,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/1_first_layer/1.png',
-        719 * 2,
-      ),
-      new BackgroundObject('img/5_background/layers/air.png', 719 * 3),
-      new BackgroundObject(
-        'img/5_background/layers/3_third_layer/2.png',
-        719 * 3,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/2_second_layer/2.png',
-        719 * 3,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/1_first_layer/2.png',
-        719 * 3,
-      ),
-      new BackgroundObject('img/5_background/layers/air.png', 719 * 4),
-      new BackgroundObject(
-        'img/5_background/layers/3_third_layer/1.png',
-        719 * 4,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/2_second_layer/1.png',
-        719 * 4,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/1_first_layer/1.png',
-        719 * 4,
-      ),
-      new BackgroundObject('img/5_background/layers/air.png', 719 * 5),
-      new BackgroundObject(
-        'img/5_background/layers/3_third_layer/2.png',
-        719 * 5,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/2_second_layer/2.png',
-        719 * 5,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/1_first_layer/2.png',
-        719 * 5,
-      ),
-      new BackgroundObject('img/5_background/layers/air.png', 719 * 6),
-      new BackgroundObject(
-        'img/5_background/layers/3_third_layer/1.png',
-        719 * 6,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/2_second_layer/1.png',
-        719 * 6,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/1_first_layer/1.png',
-        719 * 6,
-      ),
-      new BackgroundObject('img/5_background/layers/air.png', 719 * 7),
-      new BackgroundObject(
-        'img/5_background/layers/3_third_layer/2.png',
-        719 * 7,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/2_second_layer/2.png',
-        719 * 7,
-      ),
-      new BackgroundObject(
-        'img/5_background/layers/1_first_layer/2.png',
-        719 * 7,
-      ),
-    ],
-    [
-      new Coin(600),
-      new Coin(1400),
-      new Coin(2200),
-      new Coin(3000),
-      new Coin(3800),
-    ],
-    [
-      new Bottle(400),
-      new Bottle(650),
-      new Bottle(900),
-      new Bottle(1150),
-      new Bottle(1400),
-      new Bottle(1650),
-      new Bottle(1900),
-      new Bottle(2150),
-      new Bottle(2400),
-      new Bottle(2650),
-      new Bottle(2900),
-      new Bottle(3150),
-      new Bottle(3400),
-      new Bottle(3650),
-      new Bottle(3900),
-      new Bottle(4150),
-    ],
+    createEnemies(),
+    createClouds(),
+    createBackgroundObjects(),
+    createCoins(),
+    createBottles(),
   );
+}
+
+/**
+ * Erzeugt 20 Huehner im Wechsel von gross und klein sowie den Endboss.
+ * @returns {MovableObject[]} Alle Gegner des Levels.
+ */
+function createEnemies() {
+  let enemies = [];
+  for (let i = 0; i < 20; i++) {
+    if (i % 2 === 0) {
+      enemies.push(new Chicken(800 + i * 200));
+    } else {
+      enemies.push(new ChickenSmall(800 + i * 200));
+    }
+  }
+  enemies.push(new Endboss());
+  return enemies;
+}
+
+/**
+ * Erzeugt die Wolken am Himmel.
+ * @returns {Cloud[]} Alle Wolken des Levels.
+ */
+function createClouds() {
+  let clouds = [];
+  for (let i = 0; i < 8; i++) {
+    clouds.push(new Cloud());
+  }
+  return clouds;
+}
+
+/**
+ * Setzt den Hintergrund aus neun Abschnitten zusammen. Die Abschnitte grenzen
+ * lueckenlos aneinander, weil jede Grafik 719px breit ist.
+ * @returns {BackgroundObject[]} Alle Hintergrundebenen des Levels.
+ */
+function createBackgroundObjects() {
+  let objects = [];
+  for (let i = -1; i < 8; i++) {
+    objects = objects.concat(createBackgroundLayers(i));
+  }
+  return objects;
+}
+
+/**
+ * Erzeugt die vier Ebenen eines Hintergrundabschnitts.
+ * @param {number} index - Nummer des Abschnitts, jeder ist 719px breit.
+ * @returns {BackgroundObject[]} Die vier Ebenen des Abschnitts.
+ */
+function createBackgroundLayers(index) {
+  let x = 719 * index;
+  let variant = '2';
+  if (index % 2 === 0) {
+    variant = '1';
+  }
+  return [
+    new BackgroundObject(backgroundPath('air'), x),
+    new BackgroundObject(backgroundPath('3_third_layer/' + variant), x),
+    new BackgroundObject(backgroundPath('2_second_layer/' + variant), x),
+    new BackgroundObject(backgroundPath('1_first_layer/' + variant), x),
+  ];
+}
+
+/**
+ * Baut den Pfad zu einer Hintergrundgrafik zusammen.
+ * @param {string} name - Dateiname ohne Endung, bei Bedarf mit Unterordner.
+ * @returns {string} Vollstaendiger Pfad zur Bilddatei.
+ */
+function backgroundPath(name) {
+  return 'img/5_background/layers/' + name + '.png';
+}
+
+/**
+ * Verteilt die Muenzen gleichmaessig ueber das Level.
+ * @returns {Coin[]} Alle Muenzen des Levels.
+ */
+function createCoins() {
+  let coins = [];
+  for (let i = 0; i < 5; i++) {
+    coins.push(new Coin(600 + i * 800));
+  }
+  return coins;
+}
+
+/**
+ * Verteilt die Salsaflaschen gleichmaessig ueber das Level.
+ * @returns {Bottle[]} Alle Flaschen des Levels.
+ */
+function createBottles() {
+  let bottles = [];
+  for (let i = 0; i < 16; i++) {
+    bottles.push(new Bottle(400 + i * 250));
+  }
+  return bottles;
 }

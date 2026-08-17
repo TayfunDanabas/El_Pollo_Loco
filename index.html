@@ -3,7 +3,13 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      href="img/3_enemies_chicken/chicken_normal/1_walk/1_w.png"
+    />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="mobile.css" />
     <title>El Pollo Loco</title>
     <script src="models/drawable-object.class.js"></script>
     <script src="models/movable-object.class.js"></script>
@@ -21,9 +27,10 @@
     <script src="models/background-object.class.js"></script>
     <script src="models/keyboard.class.js"></script>
     <script src="models/level.class.js"></script>
-    <script src="models/throwable.object.class.js"></script>
+    <script src="models/throwable-object.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="levels/level1.js"></script>
+    <script src="js/audio.js"></script>
     <script src="js/game.js"></script>
   </head>
 
@@ -46,12 +53,65 @@
           <button onclick="restartGame()">Nochmal spielen</button>
         </div>
       </div>
+
+    </div>
+
+    <div class="top-controls">
+      <button
+        id="btnHome"
+        class="keycap top-btn d-none"
+        onclick="backToHome()"
+        aria-label="Zur&uuml;ck zum Startbildschirm"
+      >
+        <img src="img/icons/home.svg" alt="" />
+      </button>
+
+      <button
+        id="muteButton"
+        class="keycap top-btn"
+        onclick="toggleMute()"
+        aria-label="Ton an- oder ausschalten"
+      >
+        <img id="muteIcon" src="img/icons/sound-on.svg" alt="" />
+      </button>
+    </div>
+
+    <div id="touchControls" class="touch-controls d-none">
+      <div class="touch-group">
+        <button id="btnLeft" class="keycap touch-btn">
+          <img class="arrow" src="img/arrows/arrow-left.svg" alt="Links" />
+        </button>
+        <button id="btnRight" class="keycap touch-btn">
+          <img class="arrow" src="img/arrows/arrow-right.svg" alt="Rechts" />
+        </button>
+      </div>
+
+      <div class="touch-group">
+        <button id="btnJump" class="keycap touch-btn">
+          <img class="arrow" src="img/arrows/arrow-up.svg" alt="Springen" />
+        </button>
+        <button id="btnThrow" class="keycap touch-btn">
+          <img
+            class="bottle"
+            src="img/6_salsa_bottle/salsa_bottle.png"
+            alt="Flasche werfen"
+          />
+        </button>
+      </div>
     </div>
 
     <button class="impressum" onclick="showImpressum()">Impressum</button>
 
     <dialog id="controlsDialog">
       <div class="dialog-content">
+        <button
+          class="dialog-close"
+          onclick="hideControls()"
+          aria-label="Schlie&szlig;en"
+        >
+          &times;
+        </button>
+
         <h2>Steuerung</h2>
 
         <div class="control-row">
@@ -90,15 +150,22 @@
       </div>
     </dialog>
 
-    <dialog id="impressumDialog" onclose="resumeGame()">
+    <dialog id="impressumDialog" onclose="updateGameState()">
       <div class="dialog-content">
+        <button
+          class="dialog-close"
+          onclick="hideImpressum()"
+          aria-label="Schlie&szlig;en"
+        >
+          &times;
+        </button>
+
         <h2>Impressum</h2>
 
         <p>Angaben gem&auml;&szlig; &sect; 5 DDG</p>
 
         <p class="dialog-name">Tayfun Danabas</p>
 
-        <!-- TODO: Beispieldaten durch echte Angaben ersetzen -->
         <p>
           Musterstra&szlig;e 12<br />
           12345 Musterstadt
@@ -112,5 +179,9 @@
         <button onclick="hideImpressum()">Zur&uuml;ck</button>
       </div>
     </dialog>
+
+    <div id="rotateScreen" class="rotate-screen">
+      <h2>Turn your device to play</h2>
+    </div>
   </body>
 </html>

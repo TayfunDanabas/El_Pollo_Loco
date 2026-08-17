@@ -1,4 +1,4 @@
-/** Fasst alle Objekte eines Levels zusammen. */
+/** Groups all objects of a level together. */
 class Level {
   enemies;
   clouds;
@@ -8,12 +8,12 @@ class Level {
   levelEndX = 4400;
 
   /**
-   * Legt den Inhalt des Levels fest.
-   * @param {MovableObject[]} enemies - Alle Gegner inklusive Endboss.
-   * @param {Cloud[]} clouds - Die Wolken am Himmel.
-   * @param {BackgroundObject[]} backgroundObjects - Die Hintergrundebenen.
-   * @param {Coin[]} coins - Die einsammelbaren Muenzen.
-   * @param {Bottle[]} bottles - Die einsammelbaren Salsaflaschen.
+   * Defines the content of the level.
+   * @param {MovableObject[]} enemies - All enemies, including the end boss.
+   * @param {Cloud[]} clouds - The clouds in the sky.
+   * @param {BackgroundObject[]} backgroundObjects - The background layers.
+   * @param {Coin[]} coins - The collectible coins.
+   * @param {Bottle[]} bottles - The collectible salsa bottles.
    */
   constructor(enemies, clouds, backgroundObjects, coins, bottles) {
     this.enemies = enemies;

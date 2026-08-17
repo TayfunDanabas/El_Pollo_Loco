@@ -1,4 +1,4 @@
-/** Das grosse Huhn am Ende des Levels, das mehr Treffer aushaelt als die Gegner. */
+/** The large chicken at the end of the level that can take more hits than regular enemies. */
 class Endboss extends MovableObject {
   height = 400;
   width = 250;
@@ -39,7 +39,7 @@ class Endboss extends MovableObject {
     'img/4_enemie_boss_chicken/5_dead/G26.png',
   ];
 
-  /** Laedt alle Bilder des Endbosses und stellt ihn ans Ende des Levels. */
+  /** Loads all end boss images and places it at the end of the level. */
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -50,13 +50,13 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
-  /** Startet die Schleifen fuer Bewegung und Animation. */
+  /** Starts the movement and animation loops. */
   animate() {
     setInterval(() => this.updateMovement(), 1000 / 60);
     setInterval(() => this.updateAnimation(), 200);
   }
 
-  /** Weckt den Endboss und laesst ihn dem Charakter folgen. */
+  /** Alerts the end boss and makes it follow the character. */
   updateMovement() {
     this.checkAlert();
     if (this.isAlerted && !this.isDead()) {
@@ -64,7 +64,7 @@ class Endboss extends MovableObject {
     }
   }
 
-  /** Weckt den Endboss, sobald der Charakter nah genug herankommt. */
+  /** Alerts the end boss as soon as the character gets close enough. */
   checkAlert() {
     if (this.isAlerted || !this.world) {
       return;
@@ -74,7 +74,7 @@ class Endboss extends MovableObject {
     }
   }
 
-  /** Laeuft in die Richtung, in der sich der Charakter befindet. */
+  /** Moves in the direction of the character. */
   followCharacter() {
     if (this.world.character.x < this.x) {
       this.moveLeft();
@@ -85,7 +85,7 @@ class Endboss extends MovableObject {
     }
   }
 
-  /** Spielt die Animation, die zum aktuellen Zustand passt. */
+  /** Plays the animation that matches the current state. */
   updateAnimation() {
     if (this.isDead()) {
       this.playDeadAnimation();
@@ -98,7 +98,7 @@ class Endboss extends MovableObject {
     }
   }
 
-  /** Spielt die Sterbeanimation einmalig bis zum letzten Bild ab. */
+  /** Plays the death animation once through the final frame. */
   playDeadAnimation() {
     if (this.deadFrame < this.IMAGES_DEAD.length - 1) {
       this.deadFrame++;

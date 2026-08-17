@@ -1,4 +1,4 @@
-/** Basisklasse fuer alles, was auf das Canvas gezeichnet wird. */
+/** Base class for everything that is drawn on the canvas. */
 class DrawableObject {
   img;
   imageCache = {};
@@ -10,8 +10,8 @@ class DrawableObject {
   offsetY = 0;
 
   /**
-   * Laedt das Bild, das aktuell gezeichnet wird.
-   * @param {string} path - Pfad zur Bilddatei.
+   * Loads the image that is currently drawn.
+   * @param {string} path - Path to the image file.
    */
   loadImage(path) {
     this.img = new Image();
@@ -19,8 +19,8 @@ class DrawableObject {
   }
 
   /**
-   * Laedt mehrere Bilder in den Cache, damit Animationen ruckelfrei laufen.
-   * @param {string[]} paths - Pfade zu den Bilddateien.
+   * Loads multiple images into the cache so animations run smoothly.
+   * @param {string[]} paths - Paths to the image files.
    */
   loadImages(paths) {
     paths.forEach((path) => {
@@ -31,8 +31,8 @@ class DrawableObject {
   }
 
   /**
-   * Zeichnet das aktuelle Bild an seine Position auf dem Canvas.
-   * @param {CanvasRenderingContext2D} ctx - Zeichenkontext des Canvas.
+   * Draws the current image at its position on the canvas.
+   * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
    */
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);

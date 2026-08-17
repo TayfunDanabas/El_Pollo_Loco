@@ -1,24 +1,24 @@
 /**
- * Das Canvas, auf das die Spielwelt gezeichnet wird.
+ * The canvas on which the game world is drawn.
  * @type {HTMLCanvasElement}
  */
 let canvas;
 
 /**
- * Die laufende Spielwelt. Vor dem ersten Spielstart noch undefined.
+ * The currently running game world. Undefined before the first game starts.
  * @type {World}
  */
 let world;
 
-/** Status aller Tasten. Tastatur und Touch-Buttons schreiben hier hinein. */
+/** Stores the state of all keys. Keyboard and touch buttons write to this object. */
 let keyboard = new Keyboard();
 
-/** true, solange das Impressum offen ist und das Spiel deshalb pausiert. */
+/** true while the legal notice is open and the game is therefore paused. */
 let gamePaused = false;
 
 /**
- * Ordnet Tastencodes den Feldern des Keyboard-Objekts zu.
- * Belegt sind genau die Tasten, die auch im Steuerungs-Dialog stehen.
+ * Maps key codes to properties of the Keyboard object.
+ * Contains exactly the keys shown in the controls dialog.
  * @type {Object<number, string>}
  */
 const KEY_CODES = {
@@ -30,7 +30,7 @@ const KEY_CODES = {
 };
 
 /**
- * Ordnet die Touch-Buttons den Feldern des Keyboard-Objekts zu.
+ * Maps touch buttons to properties of the Keyboard object.
  * @type {Object<string, string>}
  */
 const TOUCH_BUTTONS = {
@@ -40,14 +40,14 @@ const TOUCH_BUTTONS = {
   btnThrow: 'D',
 };
 
-/** Erzeugt das Level und die Spielwelt auf dem Canvas. */
+/** Creates the level and game world on the canvas. */
 function init() {
   canvas = document.getElementById('canvas');
   initLevel();
   world = new World(canvas, keyboard);
 }
 
-/** Startet das Spiel vom Startbildschirm aus. */
+/** Starts the game from the start screen. */
 function startGame() {
   document.getElementById('startScreen').classList.add('d-none');
   showGameControls();
@@ -55,7 +55,7 @@ function startGame() {
   startLoopSound('music');
 }
 
-/** Startet das Spiel nach dem Endbildschirm neu, ohne die Seite neu zu laden. */
+/** Restarts the game after the end screen without reloading the page. */
 function restartGame() {
   document.getElementById('endScreen').classList.add('d-none');
   showGameControls();
@@ -64,8 +64,8 @@ function restartGame() {
 }
 
 /**
- * Kehrt zum Startbildschirm zurueck. Laeuft gerade ein Spiel, wird es vorher
- * beendet, damit im Hintergrund nichts weiterlaeuft.
+ * Returns to the start screen. If a game is running, it is stopped first
+ * so that nothing continues running in the background.
  */
 function backToHome() {
   if (world) {
@@ -77,7 +77,7 @@ function backToHome() {
   stopAllSounds();
 }
 
-/** Beendet alle laufenden Intervalle des Spiels. */
+/** Stops all running game intervals. */
 function stopGame() {
   world.isRunning = false;
   for (let i = 1; i < 9999; i++) {
@@ -86,8 +86,8 @@ function stopGame() {
 }
 
 /**
- * Zeigt den Endbildschirm mit Sieg- oder Niederlage-Grafik.
- * @param {boolean} hasWon - true, wenn der Endboss besiegt wurde.
+ * Shows the end screen with the victory or defeat graphic.
+ * @param {boolean} hasWon - true if the end boss was defeated.
  */
 function showEndScreen(hasWon) {
   stopGame();
@@ -101,9 +101,9 @@ function showEndScreen(hasWon) {
 }
 
 /**
- * Waehlt die Grafik des Endbildschirms aus. Der Alt-Text wandert mit, weil das
- * Bild die einzige Stelle ist, an der Sieg oder Niederlage steht.
- * @param {boolean} hasWon - true, wenn der Endboss besiegt wurde.
+ * Selects the graphic for the end screen. The alt text is updated as well
+ * because the image is the only place that indicates victory or defeat.
+ * @param {boolean} hasWon - true if the end boss was defeated.
  */
 function setEndImage(hasWon) {
   let endImage = document.getElementById('endImage');
@@ -119,8 +119,8 @@ function setEndImage(hasWon) {
 }
 
 /**
- * Spielt den passenden Sound zum Spielende.
- * @param {boolean} hasWon - true, wenn der Endboss besiegt wurde.
+ * Plays the appropriate sound for the end of the game.
+ * @param {boolean} hasWon - true if the end boss was defeated.
  */
 function playEndSound(hasWon) {
   if (hasWon) {
@@ -130,40 +130,40 @@ function playEndSound(hasWon) {
   }
 }
 
-/** Blendet Touch-Buttons und Home-Button ein, die nur im Spiel gebraucht werden. */
+/** Shows the touch buttons and home button that are only needed during the game. */
 function showGameControls() {
   document.getElementById('touchControls').classList.remove('d-none');
   document.getElementById('btnHome').classList.remove('d-none');
 }
 
-/** Blendet Touch-Buttons und Home-Button wieder aus. */
+/** Hides the touch buttons and home button again. */
 function hideGameControls() {
   document.getElementById('touchControls').classList.add('d-none');
   document.getElementById('btnHome').classList.add('d-none');
 }
 
-/** Oeffnet den Dialog mit der Tastenbelegung. */
+/** Opens the dialog showing the controls. */
 function showControls() {
   document.getElementById('controlsDialog').showModal();
 }
 
-/** Schliesst den Dialog mit der Tastenbelegung. */
+/** Closes the dialog showing the controls. */
 function hideControls() {
   document.getElementById('controlsDialog').close();
 }
 
-/** Pausiert das Spiel und oeffnet das Impressum. */
+/** Pauses the game and opens the legal notice. */
 function showImpressum() {
   pauseGame();
   document.getElementById('impressumDialog').showModal();
 }
 
-/** Schliesst das Impressum. */
+/** Closes the legal notice. */
 function hideImpressum() {
   document.getElementById('impressumDialog').close();
 }
 
-/** Haelt das Spiel an und stoppt die Sounds, die sonst weiterlaufen wuerden. */
+/** Pauses the game and stops sounds that would otherwise keep playing. */
 function pauseGame() {
   gamePaused = true;
   pauseSound('music');
@@ -171,7 +171,7 @@ function pauseGame() {
   stopSound('snore');
 }
 
-/** Setzt das Spiel fort und startet die Hintergrundmusik wieder. */
+/** Resumes the game and restarts the background music. */
 function resumeGame() {
   gamePaused = false;
   if (world && world.isRunning) {
@@ -180,9 +180,9 @@ function resumeGame() {
 }
 
 /**
- * Prueft, ob der Hinweis "Turn your device to play" gerade sichtbar ist.
- * Wann er erscheint, entscheidet allein die Media Query in mobile.css.
- * @returns {boolean} true, wenn der Hinweis das Spiel verdeckt.
+ * Checks whether the "Turn your device to play" message is currently visible.
+ * Its visibility is controlled solely by the media query in mobile.css.
+ * @returns {boolean} true if the message is covering the game.
  */
 function isRotateScreenVisible() {
   let rotateScreen = document.getElementById('rotateScreen');
@@ -190,8 +190,8 @@ function isRotateScreenVisible() {
 }
 
 /**
- * Pausiert das Spiel, solange das Geraet hochkant gehalten wird oder das
- * Impressum offen ist, und setzt es fort, sobald beides nicht mehr zutrifft.
+ * Pauses the game while the device is held in portrait mode or the legal notice
+ * is open, and resumes it once neither condition applies.
  */
 function updateGameState() {
   let impressumOpen = document.getElementById('impressumDialog').open;
@@ -203,9 +203,9 @@ function updateGameState() {
 }
 
 /**
- * Setzt den Status einer Taste im Keyboard-Objekt.
- * @param {number} keyCode - Code der gedrueckten Taste.
- * @param {boolean} isPressed - true beim Druecken, false beim Loslassen.
+ * Sets the state of a key in the Keyboard object.
+ * @param {number} keyCode - Code of the pressed key.
+ * @param {boolean} isPressed - true when pressed, false when released.
  */
 function setKeyState(keyCode, isPressed) {
   let key = KEY_CODES[keyCode];
@@ -214,7 +214,7 @@ function setKeyState(keyCode, isPressed) {
   }
 }
 
-/** Verbindet alle Touch-Buttons mit dem Keyboard-Objekt. */
+/** Connects all touch buttons to the Keyboard object. */
 function bindTouchButtons() {
   for (let buttonId in TOUCH_BUTTONS) {
     bindTouchButton(buttonId, TOUCH_BUTTONS[buttonId]);
@@ -222,10 +222,10 @@ function bindTouchButtons() {
 }
 
 /**
- * Verbindet einen Touch-Button mit einer Taste des Keyboard-Objekts.
- * Solange der Button gedrueckt wird, ist die Taste auf true gesetzt.
- * @param {string} buttonId - id des Buttons im HTML.
- * @param {string} key - Feldname im Keyboard-Objekt.
+ * Connects a touch button to a key in the Keyboard object.
+ * The key remains true for as long as the button is pressed.
+ * @param {string} buttonId - ID of the button in the HTML.
+ * @param {string} key - Property name in the Keyboard object.
  */
 function bindTouchButton(buttonId, key) {
   let button = document.getElementById(buttonId);
@@ -241,9 +241,9 @@ function bindTouchButton(buttonId, key) {
 }
 
 /**
- * Setzt die Taste beim Druecken auf true.
- * @param {Event} event - Touch- oder Maus-Event des Buttons.
- * @param {string} key - Feldname im Keyboard-Objekt.
+ * Sets the key to true when pressed.
+ * @param {Event} event - Touch or mouse event of the button.
+ * @param {string} key - Property name in the Keyboard object.
  */
 function pressTouchKey(event, key) {
   event.preventDefault();
@@ -251,9 +251,9 @@ function pressTouchKey(event, key) {
 }
 
 /**
- * Setzt die Taste beim Loslassen auf false.
- * @param {Event} event - Touch- oder Maus-Event des Buttons.
- * @param {string} key - Feldname im Keyboard-Objekt.
+ * Sets the key to false when released.
+ * @param {Event} event - Touch or mouse event of the button.
+ * @param {string} key - Property name in the Keyboard object.
  */
 function releaseTouchKey(event, key) {
   event.preventDefault();
@@ -261,14 +261,14 @@ function releaseTouchKey(event, key) {
 }
 
 /**
- * Unterdrueckt die Standardaktion, zum Beispiel das Kontextmenue.
- * @param {Event} event - Das ausgeloeste Event.
+ * Prevents the default action, such as opening the context menu.
+ * @param {Event} event - The triggered event.
  */
 function preventDefaultEvent(event) {
   event.preventDefault();
 }
 
-/** Sorgt dafuer, dass sich jeder Dialog per Klick daneben schliesst. */
+/** Allows each dialog to be closed by clicking on its backdrop. */
 function bindDialogBackdropClose() {
   document.querySelectorAll('dialog').forEach((dialog) => {
     dialog.addEventListener('click', (event) => {

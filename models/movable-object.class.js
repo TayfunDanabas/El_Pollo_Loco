@@ -1,4 +1,4 @@
-/** Basisklasse fuer alle Objekte, die sich bewegen und Schaden nehmen koennen. */
+/** Base class for all objects that can move and take damage. */
 class MovableObject extends DrawableObject {
   speed = 0.15;
   otherDirection = false;
@@ -7,7 +7,7 @@ class MovableObject extends DrawableObject {
   energy = 100;
   lastHit = 0;
 
-  /** Laesst das Objekt fallen, solange es sich ueber dem Boden befindet. */
+  /** Makes the object fall while it is above the ground. */
   applyGravity() {
     this.gravityInterval = setInterval(() => {
       if (gamePaused) {
@@ -21,9 +21,9 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Prueft, ob sich das Objekt in der Luft befindet.
-   * Geworfene Flaschen fallen so lange, bis sie zerplatzt sind.
-   * @returns {boolean} true, wenn das Objekt nicht auf dem Boden steht.
+   * Checks whether the object is in the air.
+   * Thrown bottles keep falling until they burst.
+   * @returns {boolean} true if the object is not standing on the ground.
    */
   isAboveGround() {
     if (this instanceof ThrowableObject) {
@@ -34,9 +34,9 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Prueft, ob sich dieses Objekt mit einem anderen ueberschneidet.
-   * @param {DrawableObject} mo - Das andere Objekt.
-   * @returns {boolean} true bei einer Kollision.
+   * Checks whether this object overlaps another object.
+   * @param {DrawableObject} mo - The other object.
+   * @returns {boolean} true if a collision occurs.
    */
   isColliding(mo) {
     return (
@@ -48,9 +48,9 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Prueft, ob dieses Objekt von oben auf ein anderes springt.
-   * @param {DrawableObject} mo - Das andere Objekt.
-   * @returns {boolean} true, wenn es im Fallen von oben getroffen wird.
+   * Checks whether this object is jumping onto another object from above.
+   * @param {DrawableObject} mo - The other object.
+   * @returns {boolean} true if it is hit from above while falling.
    */
   isJumpingOn(mo) {
     return (
@@ -62,8 +62,8 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Zieht dem Objekt Energie ab und merkt sich den Zeitpunkt des Treffers.
-   * @param {number} [damage] - Abgezogene Energie. Ohne Angabe sind es 5.
+   * Subtracts energy from the object and records the time of the hit.
+   * @param {number} [damage] - Energy to subtract. Defaults to 5.
    */
   hit(damage = 5) {
     this.energy -= damage;
@@ -75,8 +75,8 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Prueft, ob der letzte Treffer weniger als eine Sekunde her ist.
-   * @returns {boolean} true, solange die Verletzt-Animation laufen soll.
+   * Checks whether the last hit occurred less than one second ago.
+   * @returns {boolean} true while the hurt animation should play.
    */
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit;
@@ -85,16 +85,16 @@ class MovableObject extends DrawableObject {
   }
 
   /**
-   * Prueft, ob die Energie aufgebraucht ist.
-   * @returns {boolean} true, wenn das Objekt keine Energie mehr hat.
+   * Checks whether the energy is depleted.
+   * @returns {boolean} true if the object has no energy left.
    */
   isDead() {
     return this.energy == 0;
   }
 
   /**
-   * Zeigt das naechste Bild einer Bilderreihe und laesst sie so animiert wirken.
-   * @param {string[]} images - Pfade der Bilder dieser Animation.
+   * Displays the next image in a sequence to create an animation.
+   * @param {string[]} images - Paths to the images for this animation.
    */
   playAnimation(images) {
     if (gamePaused) {
@@ -105,7 +105,7 @@ class MovableObject extends DrawableObject {
     this.currentImage++;
   }
 
-  /** Bewegt das Objekt um seine Geschwindigkeit nach rechts. */
+  /** Moves the object to the right by its speed. */
   moveRight() {
     if (gamePaused) {
       return;
@@ -113,7 +113,7 @@ class MovableObject extends DrawableObject {
     this.x += this.speed;
   }
 
-  /** Bewegt das Objekt um seine Geschwindigkeit nach links. */
+  /** Moves the object to the left by its speed. */
   moveLeft() {
     if (gamePaused) {
       return;
@@ -121,12 +121,12 @@ class MovableObject extends DrawableObject {
     this.x -= this.speed;
   }
 
-  /** Gibt dem Objekt Schwung nach oben fuer einen Sprung. */
+  /** Gives the object upward momentum for a jump. */
   jump() {
     this.speedY = 30;
   }
 
-  /** Laesst das Objekt zurueckfedern, nachdem es auf einen Gegner gesprungen ist. */
+  /** Makes the object bounce back after jumping on an enemy. */
   bounce() {
     this.speedY = 20;
   }

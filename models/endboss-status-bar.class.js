@@ -1,4 +1,4 @@
-/** Bilder der Endboss-Leiste von 0% bis 100%. */
+/** Images for the end boss bar from 0% to 100%. */
 const ENDBOSS_BAR_IMAGES = [
   'img/7_statusbars/2_statusbar_endboss/green/green0.png',
   'img/7_statusbars/2_statusbar_endboss/green/green20.png',
@@ -8,11 +8,11 @@ const ENDBOSS_BAR_IMAGES = [
   'img/7_statusbars/2_statusbar_endboss/green/green100.png',
 ];
 
-/** Statusleiste fuer die Energie des Endbosses, rechts oben im Bild. */
+/** Status bar for the end boss's energy, shown at the top right. */
 class EndbossStatusBar extends StatusBar {
   x = 500;
 
-  /** Legt die Endboss-Leiste an, die voll startet. */
+  /** Creates the end boss bar, which starts full. */
   constructor() {
     super(ENDBOSS_BAR_IMAGES, 100);
   }

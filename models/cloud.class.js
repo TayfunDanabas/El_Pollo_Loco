@@ -1,17 +1,17 @@
-/** Eine Wolke, die langsam am Himmel nach links zieht. */
+/** A cloud that slowly moves left across the sky. */
 class Cloud extends MovableObject {
   y = 20;
   width = 500;
   height = 250;
 
-  /** Setzt die Wolke an eine zufaellige Stelle am Himmel. */
+  /** Places the cloud at a random position in the sky. */
   constructor() {
     super().loadImage('img/5_background/layers/4_clouds/1.png');
     this.x = Math.random() * 5000;
     this.animate();
   }
 
-  /** Laesst die Wolke dauerhaft nach links ziehen. */
+  /** Makes the cloud continuously move to the left. */
   animate() {
     setInterval(() => this.moveLeft(), 1000 / 60);
   }

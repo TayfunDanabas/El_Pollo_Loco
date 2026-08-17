@@ -1,4 +1,4 @@
-/** Bilder der Lebensleiste von 0% bis 100%. */
+/** Images for the health bar from 0% to 100%. */
 const HEALTH_BAR_IMAGES = [
   'img/7_statusbars/1_statusbar/2_statusbar_health/green/0.png',
   'img/7_statusbars/1_statusbar/2_statusbar_health/green/20.png',
@@ -9,8 +9,8 @@ const HEALTH_BAR_IMAGES = [
 ];
 
 /**
- * Statusleiste am oberen Bildrand. Zeigt einen Fuellstand ueber sechs Bilder an.
- * Ohne Angabe zeigt sie die Lebensenergie des Charakters.
+ * Status bar at the top of the screen. Displays a fill level using six images.
+ * By default, it displays the character's health.
  */
 class StatusBar extends DrawableObject {
   IMAGES = HEALTH_BAR_IMAGES;
@@ -21,9 +21,9 @@ class StatusBar extends DrawableObject {
   height = 60;
 
   /**
-   * Laedt die Bilder der Leiste und setzt den Startfuellstand.
-   * @param {string[]} [images] - Die sechs Bilder von 0% bis 100%.
-   * @param {number} [percentage] - Startfuellstand von 0 bis 100.
+   * Loads the bar images and sets the initial fill level.
+   * @param {string[]} [images] - The six images from 0% to 100%.
+   * @param {number} [percentage] - Initial fill level from 0 to 100.
    */
   constructor(images = HEALTH_BAR_IMAGES, percentage = 100) {
     super();
@@ -33,8 +33,8 @@ class StatusBar extends DrawableObject {
   }
 
   /**
-   * Setzt den Fuellstand und waehlt das passende Bild dazu aus.
-   * @param {number} percentage - Fuellstand von 0 bis 100.
+   * Sets the fill level and selects the matching image.
+   * @param {number} percentage - Fill level from 0 to 100.
    */
   setPercentage(percentage) {
     this.percentage = percentage;
@@ -42,8 +42,8 @@ class StatusBar extends DrawableObject {
   }
 
   /**
-   * Ermittelt, welches der sechs Bilder zum aktuellen Fuellstand passt.
-   * @returns {number} Index im IMAGES-Array.
+   * Determines which of the six images matches the current fill level.
+   * @returns {number} Index in the IMAGES array.
    */
   resolveImageIndex() {
     if (this.percentage == 100) {

@@ -1,4 +1,4 @@
-/** Der Spielcharakter Pepe, den der Benutzer ueber Tasten und Touch steuert. */
+/** The player character Pepe, controlled by the user via keyboard and touch. */
 class Character extends MovableObject {
   height = 250;
   y = 80;
@@ -71,7 +71,7 @@ class Character extends MovableObject {
     'img/2_character_pepe/1_idle/long_idle/I-20.png',
   ];
 
-  /** Laedt alle Bilder des Charakters und startet Schwerkraft und Animation. */
+  /** Loads all character images and starts gravity and animation. */
   constructor() {
     super().loadImage('img/2_character_pepe/2_walk/W-21.png');
     this.loadImages(this.IMAGES_WALKING);
@@ -84,15 +84,15 @@ class Character extends MovableObject {
     this.animate();
   }
 
-  /** Startet die Schleifen fuer Bewegung und Animation. */
+  /** Starts the movement and animation loops. */
   animate() {
     setInterval(() => this.updateMovement(), 1000 / 60);
     setInterval(() => this.updateAnimation(), 50);
   }
 
   /**
-   * Wertet die Tasten aus und richtet die Kamera am Charakter aus.
-   * Ist der Charakter tot, reagiert er auf keine Taste mehr.
+   * Processes keyboard input and aligns the camera with the character.
+   * If the character is dead, no keyboard input is processed.
    */
   updateMovement() {
     if (gamePaused) {
@@ -105,7 +105,7 @@ class Character extends MovableObject {
     this.world.cameraX = -this.x + 100;
   }
 
-  /** Bewegt den Charakter, solange eine Richtungstaste gedrueckt ist. */
+  /** Moves the character while a directional key is pressed. */
   moveByKeyboard() {
     if (this.world.keyboard.RIGHT && this.x < this.world.level.levelEndX) {
       this.moveRight();
@@ -119,7 +119,7 @@ class Character extends MovableObject {
     }
   }
 
-  /** Laesst den Charakter springen, wenn er auf dem Boden steht. */
+  /** Makes the character jump when standing on the ground. */
   checkJump() {
     let jumpPressed = this.world.keyboard.SPACE || this.world.keyboard.UP;
     if (jumpPressed && !this.isAboveGround()) {
@@ -129,7 +129,7 @@ class Character extends MovableObject {
     }
   }
 
-  /** Aktualisiert Animation und Dauergeraeusche des Charakters. */
+  /** Updates the character's animation and looping sounds. */
   updateAnimation() {
     if (gamePaused) {
       return;
@@ -138,7 +138,7 @@ class Character extends MovableObject {
     this.updateLoopSounds();
   }
 
-  /** Spielt die Animation, die zum aktuellen Zustand passt. */
+  /** Plays the animation that matches the current state. */
   playCharacterAnimation() {
     if (this.isDead()) {
       this.playDeadAnimation();
@@ -155,7 +155,7 @@ class Character extends MovableObject {
     }
   }
 
-  /** Spielt die Sterbeanimation einmalig bis zum letzten Bild ab. */
+  /** Plays the death animation once through the final frame. */
   playDeadAnimation() {
     if (this.deadFrame < this.IMAGES_DEAD.length - 1) {
       this.deadFrame++;
@@ -163,7 +163,7 @@ class Character extends MovableObject {
     this.img = this.imageCache[this.IMAGES_DEAD[this.deadFrame]];
   }
 
-  /** Startet und stoppt die Sounds fuer Laufen und Schnarchen. */
+  /** Starts and stops the walking and snoring sounds. */
   updateLoopSounds() {
     if (this.isWalking() && !this.isAboveGround() && !this.isDead()) {
       startLoopSound('walk');
@@ -178,16 +178,16 @@ class Character extends MovableObject {
   }
 
   /**
-   * Prueft, ob gerade eine Richtungstaste gedrueckt wird.
-   * @returns {boolean} true, wenn der Charakter laufen soll.
+   * Checks whether a directional key is currently pressed.
+   * @returns {boolean} true if the character should walk.
    */
   isWalking() {
     return this.world.keyboard.RIGHT || this.world.keyboard.LEFT;
   }
 
   /**
-   * Prueft, ob der Charakter seit 15 Sekunden nichts mehr getan hat.
-   * @returns {boolean} true, wenn die Schlaf-Animation laufen soll.
+   * Checks whether the character has been inactive for 15 seconds.
+   * @returns {boolean} true if the sleeping animation should play.
    */
   isSleeping() {
     let timePassed = (new Date().getTime() - this.lastMovement) / 1000;

@@ -1,6 +1,6 @@
 /**
- * Speichert, welche Tasten gerade gedrueckt sind. Tastatur und Touch-Buttons
- * schreiben beide in dieses Objekt.
+ * Stores which keys are currently pressed. Keyboard and touch buttons
+ * both write to this object.
  */
 class Keyboard {
   LEFT = false;

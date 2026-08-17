@@ -1,7 +1,7 @@
-/** Hoehe, ab der eine geworfene Flasche auf dem Boden aufschlaegt. */
+/** Height at which a thrown bottle hits the ground. */
 const BOTTLE_GROUND_Y = 360;
 
-/** Eine geworfene Salsaflasche, die im Bogen fliegt und beim Aufprall zerplatzt. */
+/** A thrown salsa bottle that flies in an arc and bursts on impact. */
 class ThrowableObject extends MovableObject {
   height = 60;
   width = 50;
@@ -28,9 +28,9 @@ class ThrowableObject extends MovableObject {
   ];
 
   /**
-   * Startet den Wurf an der Position des Charakters.
-   * @param {number} x - Startposition auf der x-Achse.
-   * @param {number} y - Startposition auf der y-Achse.
+   * Starts the throw at the character's position.
+   * @param {number} x - Starting position on the x-axis.
+   * @param {number} y - Starting position on the y-axis.
    */
   constructor(x, y) {
     super().loadImage(this.IMAGES_ROTATION[0]);
@@ -42,7 +42,7 @@ class ThrowableObject extends MovableObject {
     this.animate();
   }
 
-  /** Gibt der Flasche Schwung nach oben und laesst sie nach rechts fliegen. */
+  /** Gives the bottle upward momentum and makes it fly to the right. */
   throw() {
     this.speedY = 10;
     this.applyGravity();
@@ -55,14 +55,14 @@ class ThrowableObject extends MovableObject {
     }, 25);
   }
 
-  /** Laesst die Flasche zerplatzen, sobald sie den Boden erreicht. */
+  /** Breaks the bottle as soon as it reaches the ground. */
   checkGroundHit() {
     if (this.y > BOTTLE_GROUND_Y) {
       this.breakBottle();
     }
   }
 
-  /** Laesst die Flasche zerplatzen und spielt den Bruchsound. */
+  /** Breaks the bottle and plays the breaking sound. */
   breakBottle() {
     if (this.isBroken) {
       return;
@@ -72,7 +72,7 @@ class ThrowableObject extends MovableObject {
     playSound('bottleBreak');
   }
 
-  /** Dreht die Flasche im Flug und zeigt danach das Zerplatzen. */
+  /** Rotates the bottle during flight and then shows the splash animation. */
   animate() {
     this.animationInterval = setInterval(() => {
       if (gamePaused) {
@@ -86,7 +86,7 @@ class ThrowableObject extends MovableObject {
     }, 50);
   }
 
-  /** Spielt das Zerplatzen einmalig bis zum letzten Bild ab. */
+  /** Plays the splash animation once through the final frame. */
   playSplashAnimation() {
     if (this.isSplashFinished()) {
       return;
@@ -96,14 +96,14 @@ class ThrowableObject extends MovableObject {
   }
 
   /**
-   * Prueft, ob das Zerplatzen fertig gezeigt wurde.
-   * @returns {boolean} true, wenn die Flasche entfernt werden kann.
+   * Checks whether the splash animation has finished.
+   * @returns {boolean} true if the bottle can be removed.
    */
   isSplashFinished() {
     return this.splashFrame >= this.IMAGES_SPLASH.length;
   }
 
-  /** Stoppt alle Schleifen, damit nach dem Entfernen nichts weiterlaeuft. */
+  /** Stops all loops so nothing continues running after removal. */
   stopIntervals() {
     clearInterval(this.gravityInterval);
     clearInterval(this.flightInterval);

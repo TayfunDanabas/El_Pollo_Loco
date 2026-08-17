@@ -1,4 +1,4 @@
-/** Ein normales Huhn, das langsam von rechts nach links durch das Level laeuft. */
+/** A regular chicken that slowly moves through the level from right to left. */
 class Chicken extends MovableObject {
   y = 350;
   height = 60;
@@ -14,8 +14,8 @@ class Chicken extends MovableObject {
   IMAGES_DEAD = ['img/3_enemies_chicken/chicken_normal/2_dead/dead.png'];
 
   /**
-   * Setzt das Huhn mit zufaelligem Versatz und zufaelligem Tempo ins Level.
-   * @param {number} x - Ungefaehre Startposition im Level.
+   * Places the chicken in the level with a random offset and random speed.
+   * @param {number} x - Approximate starting position in the level.
    */
   constructor(x) {
     super().loadImage(this.IMAGES_WALKING[0]);
@@ -26,20 +26,20 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
-  /** Startet die Schleifen fuer Bewegung und Animation. */
+  /** Starts the movement and animation loops. */
   animate() {
     setInterval(() => this.updateMovement(), 1000 / 60);
     setInterval(() => this.updateAnimation(), 200);
   }
 
-  /** Laeuft nach links, solange das Huhn lebt. */
+  /** Moves left while the chicken is alive. */
   updateMovement() {
     if (!this.isDead()) {
       this.moveLeft();
     }
   }
 
-  /** Spielt die Lauf- oder die Todes-Animation. */
+  /** Plays the walking or death animation. */
   updateAnimation() {
     if (this.isDead()) {
       this.playAnimation(this.IMAGES_DEAD);

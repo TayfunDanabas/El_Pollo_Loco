@@ -1,6 +1,6 @@
 /**
- * Alle Sounds des Spiels. Der Schluessel dient als Name fuer playSound(),
- * startLoopSound() und stopSound().
+ * All sounds used in the game. The key is used as the name for playSound(),
+ * startLoopSound(), and stopSound().
  * @type {Object<string, HTMLAudioElement>}
  */
 let sounds = {
@@ -19,10 +19,10 @@ let sounds = {
   lose: new Audio('audio/lose.wav'),
 };
 
-/** Sounds, die dauerhaft in einer Schleife laufen. */
+/** Sounds that continuously play in a loop. */
 const LOOPED_SOUNDS = ['music', 'walk', 'snore'];
 
-/** Lautstaerken, die vom Standardwert abweichen. */
+/** Volume levels that differ from the default value. */
 const SOUND_VOLUMES = {
   music: 0.2,
   walk: 0.25,
@@ -32,16 +32,16 @@ const SOUND_VOLUMES = {
   bottleBreak: 0.6,
 };
 
-/** Lautstaerke fuer alle Sounds ohne eigenen Eintrag in SOUND_VOLUMES. */
+/** Volume used for all sounds without their own entry in SOUND_VOLUMES. */
 const DEFAULT_VOLUME = 0.5;
 
-/** Schluessel, unter dem der Mute-Status im Local Storage liegt. */
+/** Key under which the mute state is stored in Local Storage. */
 const MUTE_STORAGE_KEY = 'elPolloLocoMuted';
 
-/** true, wenn alle Sounds stummgeschaltet sind. */
+/** true if all sounds are muted. */
 let isMuted = false;
 
-/** Bereitet alle Sounds vor und stellt den gespeicherten Mute-Status wieder her. */
+/** Prepares all sounds and restores the saved mute state. */
 function initSounds() {
   LOOPED_SOUNDS.forEach((name) => {
     sounds[name].loop = true;
@@ -50,7 +50,7 @@ function initSounds() {
   loadMuteState();
 }
 
-/** Setzt die Lautstaerke jedes einzelnen Sounds. */
+/** Sets the volume of each individual sound. */
 function applyVolumes() {
   for (let name in sounds) {
     let volume = SOUND_VOLUMES[name];
@@ -61,13 +61,13 @@ function applyVolumes() {
   }
 }
 
-/** Liest den Mute-Status aus dem Local Storage und zeigt ihn im Button an. */
+/** Reads the mute state from Local Storage and reflects it in the button. */
 function loadMuteState() {
   isMuted = localStorage.getItem(MUTE_STORAGE_KEY) === 'true';
   updateMuteButton();
 }
 
-/** Schaltet alle Sounds stumm oder wieder an und speichert den Status. */
+/** Mutes or unmutes all sounds and saves the state. */
 function toggleMute() {
   isMuted = !isMuted;
   localStorage.setItem(MUTE_STORAGE_KEY, isMuted);
@@ -79,7 +79,7 @@ function toggleMute() {
   }
 }
 
-/** Tauscht das Icon des Mute-Buttons passend zum aktuellen Status. */
+/** Updates the mute button icon to match the current state. */
 function updateMuteButton() {
   let icon = document.getElementById('muteIcon');
   if (isMuted) {
@@ -90,8 +90,8 @@ function updateMuteButton() {
 }
 
 /**
- * Spielt einen einmaligen Soundeffekt von vorne ab.
- * @param {string} name - Schluessel aus dem sounds-Objekt.
+ * Plays a one-time sound effect from the beginning.
+ * @param {string} name - Key from the sounds object.
  */
 function playSound(name) {
   if (isMuted) {
@@ -102,8 +102,8 @@ function playSound(name) {
 }
 
 /**
- * Startet einen Schleifen-Sound, falls er nicht bereits laeuft.
- * @param {string} name - Schluessel aus dem sounds-Objekt.
+ * Starts a looping sound if it is not already playing.
+ * @param {string} name - Key from the sounds object.
  */
 function startLoopSound(name) {
   if (isMuted || !sounds[name].paused) {
@@ -113,33 +113,32 @@ function startLoopSound(name) {
 }
 
 /**
- * Startet die Wiedergabe. Der Browser lehnt play() ab, solange es keine
- * Nutzeraktion gab. Dieser Fall wird abgefangen, damit keine Konsolenfehler
- * entstehen.
- * @param {HTMLAudioElement} sound - Der abzuspielende Sound.
+ * Starts playback. The browser may reject play() until there has been a user
+ * interaction. This case is handled to prevent console errors.
+ * @param {HTMLAudioElement} sound - The sound to be played.
  */
 function startPlayback(sound) {
   sound.play().catch(() => {});
 }
 
 /**
- * Pausiert einen Sound an der aktuellen Stelle.
- * @param {string} name - Schluessel aus dem sounds-Objekt.
+ * Pauses a sound at its current position.
+ * @param {string} name - Key from the sounds object.
  */
 function pauseSound(name) {
   sounds[name].pause();
 }
 
 /**
- * Stoppt einen Sound und spult ihn an den Anfang zurueck.
- * @param {string} name - Schluessel aus dem sounds-Objekt.
+ * Stops a sound and resets it to the beginning.
+ * @param {string} name - Key from the sounds object.
  */
 function stopSound(name) {
   sounds[name].pause();
   sounds[name].currentTime = 0;
 }
 
-/** Stoppt alle Sounds, zum Beispiel beim Spielende oder beim Stummschalten. */
+/** Stops all sounds, for example when the game ends or is muted. */
 function stopAllSounds() {
   for (let name in sounds) {
     stopSound(name);

@@ -1,10 +1,10 @@
 /**
- * Das Level, das initLevel() zusammenbaut und das die Welt danach nutzt.
+ * The level built by initLevel() and then used by the game world.
  * @type {Level}
  */
 let level1;
 
-/** Baut das Level aus Gegnern, Wolken, Hintergrund, Muenzen und Flaschen auf. */
+/** Builds the level from enemies, clouds, background objects, coins, and bottles. */
 function initLevel() {
   level1 = new Level(
     createEnemies(),
@@ -16,8 +16,8 @@ function initLevel() {
 }
 
 /**
- * Erzeugt 20 Huehner im Wechsel von gross und klein sowie den Endboss.
- * @returns {MovableObject[]} Alle Gegner des Levels.
+ * Creates 20 chickens alternating between large and small, plus the end boss.
+ * @returns {MovableObject[]} All enemies in the level.
  */
 function createEnemies() {
   let enemies = [];
@@ -33,8 +33,8 @@ function createEnemies() {
 }
 
 /**
- * Erzeugt die Wolken am Himmel.
- * @returns {Cloud[]} Alle Wolken des Levels.
+ * Creates the clouds in the sky.
+ * @returns {Cloud[]} All clouds in the level.
  */
 function createClouds() {
   let clouds = [];
@@ -45,9 +45,9 @@ function createClouds() {
 }
 
 /**
- * Setzt den Hintergrund aus neun Abschnitten zusammen. Die Abschnitte grenzen
- * lueckenlos aneinander, weil jede Grafik 719px breit ist.
- * @returns {BackgroundObject[]} Alle Hintergrundebenen des Levels.
+ * Builds the background from nine sections. The sections connect seamlessly
+ * because each graphic is 719px wide.
+ * @returns {BackgroundObject[]} All background layers in the level.
  */
 function createBackgroundObjects() {
   let objects = [];
@@ -58,9 +58,9 @@ function createBackgroundObjects() {
 }
 
 /**
- * Erzeugt die vier Ebenen eines Hintergrundabschnitts.
- * @param {number} index - Nummer des Abschnitts, jeder ist 719px breit.
- * @returns {BackgroundObject[]} Die vier Ebenen des Abschnitts.
+ * Creates the four layers of a background section.
+ * @param {number} index - Number of the section, each one is 719px wide.
+ * @returns {BackgroundObject[]} The four layers of the section.
  */
 function createBackgroundLayers(index) {
   let x = 719 * index;
@@ -77,17 +77,17 @@ function createBackgroundLayers(index) {
 }
 
 /**
- * Baut den Pfad zu einer Hintergrundgrafik zusammen.
- * @param {string} name - Dateiname ohne Endung, bei Bedarf mit Unterordner.
- * @returns {string} Vollstaendiger Pfad zur Bilddatei.
+ * Builds the path to a background graphic.
+ * @param {string} name - File name without extension, including a subfolder if needed.
+ * @returns {string} Complete path to the image file.
  */
 function backgroundPath(name) {
   return 'img/5_background/layers/' + name + '.png';
 }
 
 /**
- * Verteilt die Muenzen gleichmaessig ueber das Level.
- * @returns {Coin[]} Alle Muenzen des Levels.
+ * Distributes the coins evenly throughout the level.
+ * @returns {Coin[]} All coins in the level.
  */
 function createCoins() {
   let coins = [];
@@ -98,8 +98,8 @@ function createCoins() {
 }
 
 /**
- * Verteilt die Salsaflaschen gleichmaessig ueber das Level.
- * @returns {Bottle[]} Alle Flaschen des Levels.
+ * Distributes the salsa bottles evenly throughout the level.
+ * @returns {Bottle[]} All bottles in the level.
  */
 function createBottles() {
   let bottles = [];

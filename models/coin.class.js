@@ -1,4 +1,4 @@
-/** Eine Muenze, die der Charakter einsammeln kann. */
+/** A coin that the character can collect. */
 class Coin extends DrawableObject {
   width = 100;
   height = 100;
@@ -6,8 +6,8 @@ class Coin extends DrawableObject {
   IMAGES = ['img/8_coin/coin_1.png', 'img/8_coin/coin_2.png'];
 
   /**
-   * Setzt die Muenze mit zufaelligem Versatz und zufaelliger Hoehe ins Level.
-   * @param {number} x - Ungefaehre Startposition im Level.
+   * Places the coin in the level with a random offset and random height.
+   * @param {number} x - Approximate starting position in the level.
    */
   constructor(x) {
     super().loadImage(this.IMAGES[0]);

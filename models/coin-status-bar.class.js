@@ -1,4 +1,4 @@
-/** Bilder der Muenzleiste von 0% bis 100%. */
+/** Images for the coin bar from 0% to 100%. */
 const COIN_BAR_IMAGES = [
   'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/0.png',
   'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/20.png',
@@ -8,9 +8,9 @@ const COIN_BAR_IMAGES = [
   'img/7_statusbars/1_statusbar/1_statusbar_coin/orange/100.png',
 ];
 
-/** Statusleiste fuer die eingesammelten Muenzen. */
+/** Status bar for the collected coins. */
 class CoinStatusBar extends StatusBar {
-  /** Legt die Muenzleiste an, die leer startet. */
+  /** Creates the coin bar, which starts empty. */
   constructor() {
     super(COIN_BAR_IMAGES, 0);
   }

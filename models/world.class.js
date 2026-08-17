@@ -1,10 +1,10 @@
 /**
- * Energie, die ein Treffer dem Charakter abzieht. 20 entspricht genau einem
- * Abschnitt der Lebensleiste, damit sie bei jedem Treffer sichtbar sinkt.
+ * Energy a hit removes from the character. 20 corresponds exactly to one
+ * section of the health bar so it visibly decreases with every hit.
  */
 const CHARACTER_DAMAGE = 20;
 
-/** Haelt alle Objekte des Spiels zusammen, zeichnet sie und prueft Kollisionen. */
+/** Keeps all game objects together, draws them, and checks collisions. */
 class World {
   character = new Character();
   level = level1;
@@ -27,9 +27,9 @@ class World {
   showEndBackground = false;
 
   /**
-   * Baut die Spielwelt auf und startet Zeichnen und Spiellogik.
-   * @param {HTMLCanvasElement} canvas - Das Canvas, auf das gezeichnet wird.
-   * @param {Keyboard} keyboard - Das Objekt mit den gedrueckten Tasten.
+   * Sets up the game world and starts drawing and game logic.
+   * @param {HTMLCanvasElement} canvas - The canvas to draw on.
+   * @param {Keyboard} keyboard - The object containing the currently pressed keys.
    */
   constructor(canvas, keyboard) {
     this.ctx = canvas.getContext('2d');
@@ -42,7 +42,7 @@ class World {
     this.run();
   }
 
-  /** Macht die Welt fuer Charakter und Endboss erreichbar. */
+  /** Makes the world accessible to the character and end boss. */
   setWorld() {
     this.character.world = this;
     this.level.enemies.forEach((enemy) => {
@@ -53,13 +53,13 @@ class World {
     });
   }
 
-  /** Startet die Schleifen, die Kollisionen und das Spielende pruefen. */
+  /** Starts the loops that check collisions and the end of the game. */
   run() {
     setInterval(() => this.checkEnemyCollisions(), 200);
     setInterval(() => this.runGameLoop(), 1000 / 60);
   }
 
-  /** Prueft 60 mal pro Sekunde alles, was sich schnell aendert. */
+  /** Checks everything that changes quickly 60 times per second. */
   runGameLoop() {
     if (gamePaused) {
       return;
@@ -72,7 +72,7 @@ class World {
     this.checkGameOver();
   }
 
-  /** Prueft, ob der Charakter gestorben ist oder den Endboss besiegt hat. */
+  /** Checks whether the character has died or defeated the end boss. */
   checkGameOver() {
     if (this.gameEnded) {
       return;
@@ -87,9 +87,9 @@ class World {
   }
 
   /**
-   * Wartet, bis die Sterbeanimation zu Ende ist, und zeigt dann den Endbildschirm.
-   * @param {number} delay - Wartezeit in Millisekunden.
-   * @param {boolean} hasWon - true, wenn der Endboss besiegt wurde.
+   * Waits for the death animation to finish and then shows the end screen.
+   * @param {number} delay - Delay in milliseconds.
+   * @param {boolean} hasWon - true if the end boss was defeated.
    */
   waitThenShowEndScreen(delay, hasWon) {
     let timeLeft = delay;
@@ -105,7 +105,7 @@ class World {
     }, 1000 / 60);
   }
 
-  /** Prueft, ob der Charakter einen Gegner beruehrt. */
+  /** Checks whether the character touches an enemy. */
   checkEnemyCollisions() {
     if (gamePaused) {
       return;
@@ -114,11 +114,11 @@ class World {
   }
 
   /**
-   * Verletzt den Charakter, wenn er einen lebenden Gegner seitlich beruehrt.
-   * Direkt nach einem Treffer ist er eine Sekunde lang unverwundbar, solange
-   * die Verletzt-Animation laeuft. Sonst wuerde er alle 200ms erneut Schaden
-   * nehmen und der Schmerz-Sound wuerde sich ueberschlagen.
-   * @param {MovableObject} enemy - Der zu pruefende Gegner.
+   * Damages the character when touching a living enemy from the side.
+   * Immediately after a hit, the character is invulnerable for one second while
+   * the hurt animation is playing. Otherwise, the character would take damage again every 200ms
+   * and the hurt sound would overlap.
+   * @param {MovableObject} enemy - The enemy to check.
    */
   checkEnemyCollision(enemy) {
     if (this.character.isDead() || this.character.isHurt()) {
@@ -134,8 +134,8 @@ class World {
   }
 
   /**
-   * Zieht dem Charakter Energie ab. Der Endboss macht dreifachen Schaden.
-   * @param {MovableObject} enemy - Der Gegner, der den Schaden verursacht.
+   * Subtracts energy from the character. The end boss deals triple damage.
+   * @param {MovableObject} enemy - The enemy causing the damage.
    */
   hurtCharacter(enemy) {
     let damage = CHARACTER_DAMAGE;
@@ -147,7 +147,7 @@ class World {
     this.statusBar.setPercentage(this.character.energy);
   }
 
-  /** Toetet Gegner, auf die der Charakter von oben springt. */
+  /** Kills enemies that the character jumps on from above. */
   checkStompCollisions() {
     this.level.enemies.forEach((enemy) => {
       if (this.canStomp(enemy)) {
@@ -159,9 +159,9 @@ class World {
   }
 
   /**
-   * Prueft, ob der Charakter gerade von oben auf den Gegner springt.
-   * @param {MovableObject} enemy - Der zu pruefende Gegner.
-   * @returns {boolean} true, wenn der Gegner zertreten wird.
+   * Checks whether the character is currently jumping onto the enemy from above.
+   * @param {MovableObject} enemy - The enemy to check.
+   * @returns {boolean} true if the enemy is being stomped.
    */
   canStomp(enemy) {
     return (
@@ -171,13 +171,13 @@ class World {
     );
   }
 
-  /** Prueft, ob der Charakter Muenzen oder Flaschen einsammelt. */
+  /** Checks whether the character collects coins or bottles. */
   checkItemCollisions() {
     this.checkCoinCollisions();
     this.checkBottleCollisions();
   }
 
-  /** Sammelt beruehrte Muenzen ein und aktualisiert die Muenzleiste. */
+  /** Collects touched coins and updates the coin bar. */
   checkCoinCollisions() {
     this.level.coins.forEach((coin) => {
       if (this.character.isColliding(coin)) {
@@ -189,7 +189,7 @@ class World {
     });
   }
 
-  /** Sammelt beruehrte Flaschen ein, solange der Vorrat nicht voll ist. */
+  /** Collects touched bottles while the inventory is not full. */
   checkBottleCollisions() {
     this.level.bottles.forEach((bottle) => {
       if (this.character.isColliding(bottle) && this.collectedBottles < 5) {
@@ -201,7 +201,7 @@ class World {
     });
   }
 
-  /** Wirft eine Flasche, wenn D neu gedrueckt wurde. */
+  /** Throws a bottle when D is newly pressed. */
   checkThrowObjects() {
     if (this.canThrowBottle()) {
       this.throwBottle();
@@ -210,8 +210,8 @@ class World {
   }
 
   /**
-   * Prueft, ob gerade eine Flasche geworfen werden darf.
-   * @returns {boolean} true, wenn Vorrat da ist und die Pause vorbei ist.
+   * Checks whether a bottle may currently be thrown.
+   * @returns {boolean} true if a bottle is available and the cooldown has ended.
    */
   canThrowBottle() {
     let timePassed = (new Date().getTime() - this.lastThrow) / 1000;
@@ -223,7 +223,7 @@ class World {
     );
   }
 
-  /** Erzeugt eine fliegende Flasche und zieht sie vom Vorrat ab. */
+  /** Creates a flying bottle and subtracts it from the inventory. */
   throwBottle() {
     let x = this.character.x + 100;
     let y = this.character.y + 100;
@@ -234,7 +234,7 @@ class World {
     playSound('throwBottle');
   }
 
-  /** Prueft, ob eine noch fliegende Flasche einen Gegner trifft. */
+  /** Checks whether a bottle still in flight hits an enemy. */
   checkBottleHits() {
     this.throwableObjects.forEach((bottle) => {
       if (bottle.isBroken) {
@@ -249,10 +249,10 @@ class World {
   }
 
   /**
-   * Verletzt den getroffenen Gegner und laesst die Flasche zerplatzen.
-   * Entfernt wird sie erst, wenn ihre Zerplatz-Animation durchgelaufen ist.
-   * @param {ThrowableObject} bottle - Die geworfene Flasche.
-   * @param {MovableObject} enemy - Der getroffene Gegner.
+   * Damages the hit enemy and breaks the bottle.
+   * It is removed only after its splash animation has finished.
+   * @param {ThrowableObject} bottle - The thrown bottle.
+   * @param {MovableObject} enemy - The enemy that was hit.
    */
   applyBottleHit(bottle, enemy) {
     bottle.breakBottle();
@@ -265,7 +265,7 @@ class World {
     }
   }
 
-  /** Entfernt zerplatzte Flaschen, sobald ihre Animation zu Ende ist. */
+  /** Removes broken bottles once their animation has finished. */
   removeFinishedBottles() {
     this.throwableObjects.forEach((bottle) => {
       if (bottle.isSplashFinished()) {
@@ -276,9 +276,9 @@ class World {
   }
 
   /**
-   * Entfernt einen Gegner erst nach einer Sekunde, damit seine
-   * Sterbeanimation noch zu sehen ist.
-   * @param {MovableObject} enemy - Der besiegte Gegner.
+   * Removes an enemy only after one second so its
+   * death animation remains visible.
+   * @param {MovableObject} enemy - The defeated enemy.
    */
   removeDeadEnemy(enemy) {
     playSound('chickenDead');
@@ -295,7 +295,7 @@ class World {
     }, 1000 / 60);
   }
 
-  /** Zeichnet einen kompletten Frame und fordert den naechsten an. */
+  /** Draws a complete frame and requests the next one. */
   draw() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.drawBackground();
@@ -309,7 +309,7 @@ class World {
     requestAnimationFrame(() => this.draw());
   }
 
-  /** Zeichnet Himmel, Landschaft und Wolken mit Kameraversatz. */
+  /** Draws the sky, landscape, and clouds with the camera offset. */
   drawBackground() {
     this.ctx.translate(this.cameraX, 0);
     this.addObjectsToMap(this.level.backgroundObjects);
@@ -317,7 +317,7 @@ class World {
     this.ctx.translate(-this.cameraX, 0);
   }
 
-  /** Zeichnet die Statusleisten fest am oberen Bildrand. */
+  /** Draws the status bars fixed at the top of the screen. */
   drawStatusBars() {
     this.addToMap(this.statusBar);
     this.addToMap(this.coinStatusBar);
@@ -327,7 +327,7 @@ class World {
     }
   }
 
-  /** Zeichnet Charakter, Gegner und Gegenstaende mit Kameraversatz. */
+  /** Draws the character, enemies, and objects with the camera offset. */
   drawGameObjects() {
     this.ctx.translate(this.cameraX, 0);
     this.addToMap(this.character);
@@ -339,16 +339,16 @@ class World {
   }
 
   /**
-   * Zeichnet alle Objekte einer Liste.
-   * @param {DrawableObject[]} objects - Die zu zeichnenden Objekte.
+   * Draws all objects in a list.
+   * @param {DrawableObject[]} objects - The objects to draw.
    */
   addObjectsToMap(objects) {
     objects.forEach((object) => this.addToMap(object));
   }
 
   /**
-   * Zeichnet ein Objekt und spiegelt es, wenn es nach links schaut.
-   * @param {DrawableObject} mo - Das zu zeichnende Objekt.
+   * Draws an object and mirrors it if it faces left.
+   * @param {DrawableObject} mo - The object to draw.
    */
   addToMap(mo) {
     if (mo.otherDirection) {
@@ -361,8 +361,8 @@ class World {
   }
 
   /**
-   * Spiegelt den Zeichenbereich, damit das Objekt nach links schaut.
-   * @param {DrawableObject} mo - Das zu spiegelnde Objekt.
+   * Mirrors the drawing area so the object faces left.
+   * @param {DrawableObject} mo - The object to mirror.
    */
   flipImage(mo) {
     this.ctx.save();
@@ -372,8 +372,8 @@ class World {
   }
 
   /**
-   * Hebt die Spiegelung wieder auf.
-   * @param {DrawableObject} mo - Das gespiegelte Objekt.
+   * Restores the drawing state after mirroring.
+   * @param {DrawableObject} mo - The mirrored object.
    */
   flipImageBack(mo) {
     mo.x = mo.x * -1;

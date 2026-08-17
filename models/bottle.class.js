@@ -1,4 +1,4 @@
-/** Eine Salsaflasche, die am Boden liegt und eingesammelt werden kann. */
+/** A salsa bottle that lies on the ground and can be collected. */
 class Bottle extends DrawableObject {
   width = 100;
   height = 100;
@@ -10,8 +10,8 @@ class Bottle extends DrawableObject {
   ];
 
   /**
-   * Setzt die Flasche mit zufaelligem Versatz ins Level.
-   * @param {number} x - Ungefaehre Startposition im Level.
+   * Places the bottle in the level with a random offset.
+   * @param {number} x - Approximate starting position in the level.
    */
   constructor(x) {
     super().loadImage(this.IMAGES[0]);

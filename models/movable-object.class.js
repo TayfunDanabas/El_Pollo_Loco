@@ -1,13 +1,22 @@
+/** Upward speed a jump starts with. */
+const JUMP_SPEED = 13;
+
 /** Base class for all objects that can move and take damage. */
 class MovableObject extends DrawableObject {
   speed = 0.15;
   otherDirection = false;
   speedY = 0;
-  acceleration = 2.5;
+  acceleration = 0.45;
   energy = 100;
   lastHit = 0;
+  groundY = 180;
+  landsOnGround = true;
 
-  /** Makes the object fall while it is above the ground. */
+  /**
+   * Makes the object fall while it is above the ground. Runs 60 times per
+   * second so the jump looks smooth. On landing the object is placed exactly
+   * on the ground, otherwise it would stop wherever the last step left it.
+   */
   applyGravity() {
     this.gravityInterval = setInterval(() => {
       if (gamePaused) {
@@ -16,8 +25,11 @@ class MovableObject extends DrawableObject {
       if (this.isAboveGround() || this.speedY > 0) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
+      } else if (this.landsOnGround) {
+        this.y = this.groundY;
+        this.speedY = 0;
       }
-    }, 1000 / 25);
+    }, 1000 / 60);
   }
 
   /**
@@ -29,21 +41,22 @@ class MovableObject extends DrawableObject {
     if (this instanceof ThrowableObject) {
       return !this.isBroken;
     } else {
-      return this.y < 180;
+      return this.y < this.groundY;
     }
   }
 
   /**
-   * Checks whether this object overlaps another object.
+   * Checks whether this object overlaps another object. Both hit areas are
+   * shrunk by their offsets, so a collision needs a real visual overlap.
    * @param {DrawableObject} mo - The other object.
    * @returns {boolean} true if a collision occurs.
    */
   isColliding(mo) {
     return (
-      this.x + this.width > mo.x &&
-      this.y + this.height > mo.y + mo.offsetY &&
-      this.x < mo.x + mo.width &&
-      this.y + this.offsetY < mo.y + mo.height
+      this.x + this.width - this.offsetRight > mo.x + mo.offsetLeft &&
+      this.y + this.height - this.offsetBottom > mo.y + mo.offsetTop &&
+      this.x + this.offsetLeft < mo.x + mo.width - mo.offsetRight &&
+      this.y + this.offsetTop < mo.y + mo.height - mo.offsetBottom
     );
   }
 
@@ -57,7 +70,7 @@ class MovableObject extends DrawableObject {
       this.isColliding(mo) &&
       this.isAboveGround() &&
       this.speedY < 0 &&
-      this.y + this.height < mo.y + mo.height
+      this.y + this.height - this.offsetBottom < mo.y + mo.height - mo.offsetBottom
     );
   }
 
@@ -123,11 +136,11 @@ class MovableObject extends DrawableObject {
 
   /** Gives the object upward momentum for a jump. */
   jump() {
-    this.speedY = 30;
+    this.speedY = JUMP_SPEED;
   }
 
   /** Makes the object bounce back after jumping on an enemy. */
   bounce() {
-    this.speedY = 20;
+    this.speedY = 8.7;
   }
 }

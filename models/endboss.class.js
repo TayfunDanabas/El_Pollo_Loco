@@ -5,6 +5,10 @@ class Endboss extends MovableObject {
   y = 55;
   speed = 5;
   energy = 25;
+  offsetLeft = 40;
+  offsetRight = 30;
+  offsetTop = 60;
+  offsetBottom = 15;
   world;
   isAlerted = false;
   deadFrame = 0;

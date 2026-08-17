@@ -7,7 +7,10 @@ class DrawableObject {
   y = 280;
   height = 150;
   width = 100;
-  offsetY = 0;
+  offsetLeft = 0;
+  offsetRight = 0;
+  offsetTop = 0;
+  offsetBottom = 0;
 
   /**
    * Loads the image that is currently drawn.

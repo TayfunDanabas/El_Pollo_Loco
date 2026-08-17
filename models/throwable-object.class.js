@@ -5,6 +5,11 @@ const BOTTLE_GROUND_Y = 360;
 class ThrowableObject extends MovableObject {
   height = 60;
   width = 50;
+  landsOnGround = false;
+  offsetLeft = 6;
+  offsetRight = 6;
+  offsetTop = 6;
+  offsetBottom = 6;
   isBroken = false;
   splashFrame = 0;
   gravityInterval;
@@ -44,7 +49,7 @@ class ThrowableObject extends MovableObject {
 
   /** Gives the bottle upward momentum and makes it fly to the right. */
   throw() {
-    this.speedY = 10;
+    this.speedY = 4.3;
     this.applyGravity();
     this.flightInterval = setInterval(() => {
       if (gamePaused || this.isBroken) {

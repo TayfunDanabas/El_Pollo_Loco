@@ -2,7 +2,10 @@
 class Character extends MovableObject {
   height = 250;
   y = 80;
-  offsetY = 80;
+  offsetLeft = 25;
+  offsetRight = 25;
+  offsetTop = 80;
+  offsetBottom = 10;
   world;
   speed = 10;
   lastMovement = new Date().getTime();
@@ -145,7 +148,7 @@ class Character extends MovableObject {
     } else if (this.isHurt()) {
       this.playAnimation(this.IMAGES_HURT);
     } else if (this.isAboveGround()) {
-      this.playAnimation(this.IMAGES_JUMPING);
+      this.playJumpAnimation();
     } else if (this.isWalking()) {
       this.playAnimation(this.IMAGES_WALKING);
     } else if (this.isSleeping()) {
@@ -153,6 +156,23 @@ class Character extends MovableObject {
     } else {
       this.playAnimation(this.IMAGES_IDLE);
     }
+  }
+
+  /** Shows the jump image that belongs to the current point of the jump. */
+  playJumpAnimation() {
+    this.img = this.imageCache[this.IMAGES_JUMPING[this.resolveJumpFrame()]];
+  }
+
+  /**
+   * Picks the image by the current rising or falling speed instead of looping.
+   * The speed runs from full upward to full downward momentum exactly once per
+   * jump, so the nine images are shown once and stay in sync with the arc.
+   * @returns {number} Index in IMAGES_JUMPING.
+   */
+  resolveJumpFrame() {
+    let progress = (JUMP_SPEED - this.speedY) / (2 * JUMP_SPEED);
+    let frame = Math.floor(progress * this.IMAGES_JUMPING.length);
+    return Math.min(Math.max(frame, 0), this.IMAGES_JUMPING.length - 1);
   }
 
   /** Plays the death animation once through the final frame. */

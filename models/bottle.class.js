@@ -1,8 +1,12 @@
 /** A salsa bottle that lies on the ground and can be collected. */
 class Bottle extends DrawableObject {
-  width = 100;
-  height = 100;
-  y = 350;
+  width = 70;
+  height = 70;
+  y = 360;
+  offsetLeft = 34;
+  offsetRight = 34;
+  offsetTop = 8;
+  offsetBottom = 6;
 
   IMAGES = [
     'img/6_salsa_bottle/1_salsa_bottle_on_ground.png',

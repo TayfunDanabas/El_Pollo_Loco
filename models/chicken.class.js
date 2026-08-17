@@ -1,9 +1,13 @@
 /** A regular chicken that slowly moves through the level from right to left. */
 class Chicken extends MovableObject {
-  y = 350;
+  y = 355;
   height = 60;
   width = 100;
   energy = 5;
+  offsetLeft = 12;
+  offsetRight = 12;
+  offsetTop = 4;
+  offsetBottom = 4;
 
   IMAGES_WALKING = [
     'img/3_enemies_chicken/chicken_normal/1_walk/1_w.png',

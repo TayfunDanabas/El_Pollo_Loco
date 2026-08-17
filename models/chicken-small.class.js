@@ -1,9 +1,13 @@
 /** A small chicken that moves faster than the regular chicken. */
 class ChickenSmall extends MovableObject {
-  y = 365;
+  y = 370;
   height = 45;
   width = 60;
   energy = 5;
+  offsetLeft = 7;
+  offsetRight = 7;
+  offsetTop = 3;
+  offsetBottom = 4;
 
   IMAGES_WALKING = [
     'img/3_enemies_chicken/chicken_small/1_walk/1_w.png',

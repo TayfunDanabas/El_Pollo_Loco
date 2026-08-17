@@ -1,18 +1,1 @@
-# Betriebssystem
 .DS_Store
-Thumbs.db
-desktop.ini
-
-# Editor
-.vscode/
-.idea/
-*.swp
-
-# Abhaengigkeiten und Build
-node_modules/
-dist/
-build/
-
-# Logs und temporaere Dateien
-*.log
-*.tmp

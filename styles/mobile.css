@@ -91,9 +91,27 @@
 
 @media (hover: none) and (orientation: landscape),
   (any-pointer: coarse) and (orientation: landscape) {
+  /*
+    Bedienelemente und Spielfeld wachsen stufenlos mit der Fensterhoehe.
+    Vorher sprangen Buttongroesse und Reserve gemeinsam bei 768px, dadurch
+    wurde das Spielfeld an dieser Grenze schlagartig um gut 240px groesser.
+  */
+  :root {
+    --touch-size: clamp(56px, 11vh, 88px);
+    --game-width: min(
+      100vw - 16px,
+      1424px,
+      (100dvh - 60px - var(--touch-size)) * 1.5
+    );
+  }
+
   body {
     padding: 8px;
     gap: 8px;
+  }
+
+  h1 {
+    font-size: clamp(20px, 4.5vh, 40px);
   }
 
   .touch-controls {
@@ -103,18 +121,32 @@
   .impressum {
     font-size: 18px;
   }
+
+  .touch-group {
+    gap: calc(var(--touch-size) * 0.22);
+  }
+
+  .touch-btn,
+  .top-btn {
+    width: var(--touch-size);
+    min-width: var(--touch-size);
+    height: var(--touch-size);
+  }
+
+  .touch-btn .arrow,
+  .top-btn img {
+    width: calc(var(--touch-size) * 0.5);
+    height: calc(var(--touch-size) * 0.5);
+  }
+
+  .touch-btn .bottle {
+    width: calc(var(--touch-size) * 0.64);
+    height: calc(var(--touch-size) * 0.64);
+  }
 }
 
 @media (hover: none) and (orientation: landscape) and (max-height: 767px),
   (any-pointer: coarse) and (orientation: landscape) and (max-height: 767px) {
-  h1 {
-    font-size: 24px;
-  }
-
-  :root {
-    --game-width: min(100vw - 16px, 1424px, (100dvh - 88px) * 1.5);
-  }
-
   .start-screen {
     gap: 10px;
     padding-bottom: 12px;
@@ -151,17 +183,6 @@
     width: 26px;
     height: 26px;
     font-size: 24px;
-  }
-
-  .top-btn {
-    width: 56px;
-    min-width: 56px;
-    height: 56px;
-  }
-
-  .top-btn img {
-    width: 28px;
-    height: 28px;
   }
 
   dialog h2 {
@@ -201,40 +222,3 @@
   }
 }
 
-@media (hover: none) and (orientation: landscape) and (min-height: 768px),
-  (any-pointer: coarse) and (orientation: landscape) and (min-height: 768px) {
-  :root {
-    --game-width: min(100vw - 16px, 1424px, (100dvh - 250px) * 1.5);
-  }
-
-  .touch-group {
-    gap: 20px;
-  }
-
-  .touch-btn {
-    width: 88px;
-    height: 88px;
-    opacity: 1;
-  }
-
-  .touch-btn .arrow {
-    width: 44px;
-    height: 44px;
-  }
-
-  .touch-btn .bottle {
-    width: 56px;
-    height: 56px;
-  }
-
-  .top-btn {
-    width: 88px;
-    min-width: 88px;
-    height: 88px;
-  }
-
-  .top-btn img {
-    width: 44px;
-    height: 44px;
-  }
-}

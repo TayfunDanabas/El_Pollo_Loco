@@ -6,19 +6,8 @@
   font-display: swap;
 }
 
-/*
-  Breite des Spielfelds. Titel und Canvas rechnen mit demselben Wert, damit
-  beide gleich mitwachsen. Begrenzt wird sie von der Fensterbreite, von der
-  maximalen Seitenbreite und von der Fensterhoehe.
-*/
 :root {
   --game-width: min(100vw - 32px, 1408px, (100dvh - 190px) * 1.5);
-
-  /*
-    Grundgroesse aller Bedienelemente. Ab 900px Spielfeldbreite waechst sie
-    mit, kleiner als bisher wird sie nie. Buttons und Dialoge rechnen in em
-    von diesem Wert, dadurch haengt jedes Mass an dieser einen Zeile.
-  */
   --ui-size: max(25px, calc(var(--game-width) * 0.0278));
 }
 
